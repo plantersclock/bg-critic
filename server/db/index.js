@@ -1,8 +1,9 @@
 
 const mongoose = require('mongoose')
+require('dotenv').config(); 
 
 mongoose
-    .connect('mongodb+srv://bg_user_1:Boboman861@cluster0.x0fq3.mongodb.net/bg-top10?retryWrites=true&w=majority', { useUnifiedTopology: true, useNewUrlParser: true })
+    .connect(process.env.MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
     .catch(e => {
         console.error('Connection error', e.message)
     })
