@@ -1,9 +1,21 @@
 
 import axios from 'axios'
+const path = require('path'); 
+console.log(path.resolve(path.join(__dirname, "../"), 'api'))
+require('dotenv').config();
+console.log(process.env.NODE_ENV)
 
-const api = axios.create({
-    baseURL: 'http://localhost:3000/api',
-})
+let api
+
+if (process.env.NODE_ENV === 'production') {   
+    api = axios.create({
+        baseURL: path.resolve(path.join(__dirname, "../"), 'api'),
+    })
+}else{
+    api = axios.create({
+        baseURL: 'http://localhost:3000/api',
+    })
+}
 
 export const insertTop10Item = payload => api.post(`/top10`, payload)
 export const getAllTop10Items = () => api.get(`/top10items`)
