@@ -18,14 +18,11 @@ app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
 app.use('/api', top10ItemRouter)
 
 if (process.env.NODE_ENV === 'production') {           
     app.use(express.static('client/build'));
+    
     console.log("__dirname")
     console.log(__dirname)
     console.log(path.resolve(path.join(__dirname, "../"), 'client', 'build', 'index.html'))
