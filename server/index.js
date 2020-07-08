@@ -24,15 +24,14 @@ app.get('/', (req, res) => {
 
 app.use('/api', top10ItemRouter)
 
-
 if (process.env.NODE_ENV === 'production') {           
     app.use(express.static('client/build'));
-    console.log("matthew test shit")
+    console.log("__dirname")
     console.log(__dirname)
-    console.log(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    console.log(path.resolve(path.join(__dirname, "../"), 'client', 'build', 'index.html'))
   
     app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+      res.sendFile(path.resolve(path.join(__dirname, "../"), 'client', 'build', 'index.html'));
     });
   }
 
