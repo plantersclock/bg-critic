@@ -12,9 +12,9 @@
   },
   "scripts": {
     "start": "node ./server/index.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && yarn build"
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "engines": {
-    "node": "10.16.0"
+    "node": "12.16.3"
   }
 }
