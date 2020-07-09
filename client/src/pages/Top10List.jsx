@@ -128,7 +128,10 @@ class Top10List extends Component {
                         </Grid>
                       )) : <div></div>}
                     </Grid>
-                    <Grid item xs={0} md={4}><div style={{width:"100%", height:"100%", backgroundColor: "black"}}></div></Grid>
+                    <Grid item xs={0} md={4}>
+                      <div style={{minWidth: 288, width:"100%", height:"100%", backgroundColor: "black"}}>
+                      </div>
+                    </Grid>
                   </Grid>
                   
                   <Grid xs= {0} sm = {1} md={1} lg={2} xl={3} ></Grid>
