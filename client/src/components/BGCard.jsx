@@ -5,8 +5,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {amazon} from '../affiliates'
+import PeopleIcon from '@material-ui/icons/People';
+import TimerIcon from '@material-ui/icons/Timer';
 
 import '../style/bgcard.css';
 
@@ -75,7 +78,6 @@ class BGCard extends Component {
               title={bg.name}
             />
 
-
             
             <CardContent >
               <Typography gutterBottom variant="h5" component="h2">
@@ -85,7 +87,21 @@ class BGCard extends Component {
                 {this.convert(description)}
               </Typography>
             </CardContent>
+          
+
+            <Grid container xs={12}>
+              <Grid Item container direction="column" xs={6} justify="center" alignItems="center">
+                <PeopleIcon/>
+                <Typography variant="h6">{bg.minPlayers} - {bg.maxPlayers}</Typography>
+              </Grid>
+              <Grid Item container direction="column" xs={6} justify="center" alignItems="center">
+                <TimerIcon/>
+                <Typography variant="h6">{bg.playingTime}</Typography>
+              </Grid>
+
+            </Grid>
           </CardActionArea>
+
 
           <CardActions>
             {amazonLink !== undefined ?

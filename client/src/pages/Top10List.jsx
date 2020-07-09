@@ -117,8 +117,8 @@ class Top10List extends Component {
             <div style={{width:"100%"}}>
 
                 <Grid xs={12} container justify="center" direction="row">
-                  <Grid xs= {0} sm = {1} md={2} lg={2} xl={3} ></Grid>
-                  <Grid xs= {12} sm = {10} md={8} lg={8} xl={6} container direction="row" spacing={4}  >
+                  <Grid xs= {0} sm = {1} md={1} lg={2} xl={3} ></Grid>
+                  <Grid xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
                     <Grid item xs={12} md={8}>
                       <Top10Title></Top10Title>
                       <Top10SubText></Top10SubText>
@@ -131,7 +131,7 @@ class Top10List extends Component {
                     <Grid item xs={0} md={4}><div style={{width:"100%", height:"100%", backgroundColor: "black"}}></div></Grid>
                   </Grid>
                   
-                  <Grid xs= {0} sm = {1} md={2} lg={2} xl={3} ></Grid>
+                  <Grid xs= {0} sm = {1} md={1} lg={2} xl={3} ></Grid>
                 </Grid>
                 {content}
             </div>

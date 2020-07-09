@@ -24,7 +24,7 @@ class Top10Title extends Component {
         return (
             <div style={{width: "100%"}}>               
               <Grid container xs={12}>
-                <Typography style={{paddingTop: 30, paddingLeft: 10}} gutterBottom variant="h2">Top 10 Boardgames of 2019</Typography>
+                <Typography style={{paddingTop: 30, paddingLeft: 10}} gutterBottom variant="h3">Top 10 Boardgames of 2019</Typography>
               </Grid>     
                           
             </div>
