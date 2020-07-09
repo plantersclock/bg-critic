@@ -71,7 +71,7 @@ class Top10Insert extends Component {
                         <TextField id="standard-basic" label="Source" value={source} name="source" onChange={this.handleChange}/>
                         <TextField id="standard-basic" label="Year" value={year} name="year" onChange={this.handleChange}/>
                         <TextField id="standard-basic" label="Games" multiline rows={10} value={games} name="games" onChange={this.handleChange}/>
-                        <input style= {{ marginTop: 10, float: "right", width: 150}} type="submit" value="Add Itinerary Item" />
+                        <input style= {{ marginTop: 10, float: "right", width: 150}} type="submit" value="Add Top 10 List" />
                     </Grid>
                     <Grid item lg = {1}></Grid>
                 </Grid>

@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {amazon} from '../affiliates'
 
+import '../style/bgcard.css';
+
 
 
 class BGCard extends Component {
@@ -63,9 +65,9 @@ class BGCard extends Component {
       return (
         <div>
           {isLoaded ? 
-          <Card>
+          <Card style={{marginBottom:22}}>
           <CardActionArea>
-            <CardMedia
+            <CardMedia className ="bg-card-image"
               component="img"
               alt={bg.name}
               height="200"
@@ -75,7 +77,7 @@ class BGCard extends Component {
 
 
             
-            <CardContent zeroMinWidth>
+            <CardContent >
               <Typography gutterBottom variant="h5" component="h2">
                 {10-order}. {bg.name}
               </Typography>
