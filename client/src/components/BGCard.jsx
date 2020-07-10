@@ -51,19 +51,19 @@ class BGCard extends Component {
 
     render() {
       let isLoaded = false
-      let {bg, order} = this.props
+      let {bg, order, topX} = this.props
       let description = ""
       let amazonLink = undefined
       
       if (this.props.bg !== undefined && this.props.bg !==null){
         isLoaded=true
         description = bg.description
-        console.log(bg)
+
 
 
         amazonLink = amazon[bg.bgg_id]
 
-        console.log (amazonLink)
+
       }
       return (
         <div>
@@ -81,7 +81,7 @@ class BGCard extends Component {
             
             <CardContent >
               <Typography gutterBottom variant="h5" component="h2">
-                {10-order}. {bg.name}
+                {topX-order}. {bg.name}
               </Typography>
               <Typography style={{maxHeight: 120, overflow: "hidden"}} variant="body2" color="textSecondary" component="p">
                 {this.convert(description)}
@@ -90,13 +90,21 @@ class BGCard extends Component {
           
 
             <Grid container xs={12}>
-              <Grid Item container direction="column" xs={6} justify="center" alignItems="center">
+              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
                 <PeopleIcon/>
                 <Typography variant="h6">{bg.minPlayers} - {bg.maxPlayers}</Typography>
               </Grid>
-              <Grid Item container direction="column" xs={6} justify="center" alignItems="center">
+              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
                 <TimerIcon/>
                 <Typography variant="h6">{bg.playingTime}</Typography>
+              </Grid>
+              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
+                <TimerIcon/>
+                <Typography variant="h6">{bg.score}</Typography>
+              </Grid>
+              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
+                <TimerIcon/>
+                <Typography variant="h6">{bg.tie_breaker}</Typography>
               </Grid>
 
             </Grid>

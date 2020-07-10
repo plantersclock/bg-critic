@@ -41,7 +41,7 @@ class NavBar extends Component {
                                 <Grid item xs={2}></Grid>
                                 <Grid container item xs={12}>
                                     <Grid container item alignItems="center" justify="center" xs={4}>
-                                        <Link style={{color:"white"}} to="/top10/list">List</Link>
+                                        <Link style={{color:"white"}} to="/">List</Link>
                                     </Grid>
                                     <Grid container item  alignItems="center" justify="center" xs={4}>
                                         <Link style={{color:"white"}} to="/top10/create">Create</Link>
