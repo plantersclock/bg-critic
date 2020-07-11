@@ -33,7 +33,7 @@ class Top10SubText extends Component {
                     <Divider variant="middle" />    
                   </Grid>
                   <Grid container item xs={12}> 
-                    <Typography style={{padding: 20}} variant="h7">Data Compiled By: Matthew Wright</Typography>
+                    <Typography style={{padding: 20}} variant="caption">Data Compiled By: Matthew Wright</Typography>
                   </Grid>
                           
             </div>

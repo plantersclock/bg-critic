@@ -3,5 +3,7 @@ import BGCard from './BGCard'
 import Top10Title from './Top10Title'
 import Top10SubText from './Top10SubText'
 import FilterTopX from './FilterTopX'
+import FilterOutChannel from './FilterOutChannel'
+import FilterOutAuthor from './FilterOutAuthor'
 
-export { NavBar, BGCard, Top10Title, Top10SubText, FilterTopX }
+export { NavBar, BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor }

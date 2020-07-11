@@ -22,31 +22,33 @@ import Slide from '@material-ui/core/Slide';
 class FilterTopX extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+          topX: this.props.topX
+        }
 
         this.handleChange = this.handleChange.bind(this);
-      }
+    }
 
-    handleChange(e){
+
+    handleChange = async (e) => {
+      await this.setState({topX: e.target.value})
       this.props.changeListState(e.target.name, e.target.value)
     }
 
 
 
     render() {
-      let {topX} = this.props
 
         return (
             <div style={{width: "100%"}}>               
-              <Grid container xs={12}>
+              <Grid item container xs={12}>
                 <TextField style={{minWidth: 120}}
-                    labelId="top-x-filter"
                     id="top-x-filter"
                     name="topX"
                     label="Display"
                     select
-                    defaultValue={topX}
-                    value={topX}
+                    defaultValue={this.state.topX}
+                    value={this.state.topX}
                     onChange={this.handleChange}
                   >
                     <MenuItem value={10}>10</MenuItem>

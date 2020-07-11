@@ -89,20 +89,20 @@ class BGCard extends Component {
             </CardContent>
           
 
-            <Grid container xs={12}>
-              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
+            <Grid item container xs={12}>
+              <Grid item container direction="column" xs={3} justify="center" alignItems="center">
                 <PeopleIcon/>
                 <Typography variant="h6">{bg.minPlayers} - {bg.maxPlayers}</Typography>
               </Grid>
-              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
+              <Grid item container direction="column" xs={3} justify="center" alignItems="center">
                 <TimerIcon/>
                 <Typography variant="h6">{bg.playingTime}</Typography>
               </Grid>
-              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
+              <Grid item container direction="column" xs={3} justify="center" alignItems="center">
                 <TimerIcon/>
                 <Typography variant="h6">{bg.score}</Typography>
               </Grid>
-              <Grid Item container direction="column" xs={3} justify="center" alignItems="center">
+              <Grid item container direction="column" xs={3} justify="center" alignItems="center">
                 <TimerIcon/>
                 <Typography variant="h6">{bg.tie_breaker}</Typography>
               </Grid>
