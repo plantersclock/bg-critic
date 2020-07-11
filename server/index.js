@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const db = require('./db')
 const top10ItemRouter = require('./routes/top10item-router')
+const bggBaseRouter = require('./routes/bggbase-router')
 
 const app = express()
 const apiPort = process.env.PORT || 3000
@@ -19,6 +20,7 @@ app.use(bodyParser.json())
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 app.use('/api', top10ItemRouter)
+app.use('/api', bggBaseRouter)
 
 if (process.env.NODE_ENV === 'production') {           
     app.use(express.static('client/build'));
