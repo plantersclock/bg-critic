@@ -60,9 +60,9 @@ class FilterOutChannel extends Component {
 
 
         return (
-            <div style={{width: "100%"}}>               
+            <div style={{width: "100%", marginBottom: 12}}>               
               <Grid item xs={12}>
-                <Typography variant="h6"> Filter Out Channel </Typography>
+                <Typography variant="h6">Channels: </Typography>
               </Grid>
               {channels.map((channel) => (
               <Grid key={channel} item xs={12}>

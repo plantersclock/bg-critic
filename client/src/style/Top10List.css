@@ -1,0 +1,11 @@
+@media only screen and (min-width: 960px) {
+    .bg-skele-image{
+        height: 400px !important;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .bg-skele-image{
+        height: 300px !important;
+    }
+}

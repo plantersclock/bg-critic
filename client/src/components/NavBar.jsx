@@ -37,8 +37,8 @@ class NavBar extends Component {
                         <Toolbar>
                             
                             <Grid container >
-                                <Grid item xs={12}><Typography variant="h6">BG-TOP10</Typography></Grid>
-                                <Grid item xs={2}></Grid>
+                                <Grid item xs={12}><Typography variant="h4">Top 10 Boardgames</Typography></Grid>
+                                {/* <Grid item xs={2}></Grid>
                                 <Grid container item xs={12}>
                                     <Grid container item alignItems="center" justify="center" xs={4}>
                                         <Link style={{color:"white"}} to="/">List</Link>
@@ -50,7 +50,7 @@ class NavBar extends Component {
                                         <Link style={{color:"white"}} to="/top10/update/1">Update</Link>
                                     </Grid>
                                 </Grid>
-                                <Grid item xs={2}></Grid>
+                                <Grid item xs={2}></Grid> */}
                             </Grid>
                         </Toolbar>
                     </AppBar>

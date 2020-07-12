@@ -25,15 +25,15 @@ class Top10SubText extends Component {
         return (
             <div style={{width: "100%"}}> 
                   <Grid item xs={12}>
-                    <Divider variant="middle" />    
+                    <Divider style={{width: "100%"}} />    
                   </Grid>
-                  <Typography style={{padding: 20}} variant="h6">This list was generated from data collected from {this.props.xReviewers} reviewers' lists of the best boardgames of 2019</Typography>
+                  <Typography style={{padding: "20px 0px"}} variant="h6">Generated from {this.props.xReviewers} reviewers' lists of the best boardgames of 2019</Typography>
                     
                   <Grid  item xs={12}> 
-                    <Divider variant="middle" />    
+                    <Divider style={{width: "100%"}} />    
                   </Grid>
                   <Grid container item xs={12}> 
-                    <Typography style={{padding: 20}} variant="caption">Data Compiled By: Matthew Wright</Typography>
+                    <Typography style={{padding: "20px 0px"}} variant="caption">Data Compiled By: Matthew Wright</Typography>
                   </Grid>
                           
             </div>

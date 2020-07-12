@@ -5,8 +5,11 @@ import {BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOu
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import ReactLoading from 'react-loading';
-
+import Skeleton from '@material-ui/lab/Skeleton';
 import Button from '@material-ui/core/Button';
+import { Helmet } from 'react-helmet';
+
+import '../style/Top10List.css';
 
 
 class Top10List extends Component {
@@ -281,6 +284,11 @@ class Top10List extends Component {
         // console.log (this.state.top10items)
         return (
             <div style={{width:"100%"}}>
+              <Helmet>
+                <title>Top 10 Boardgames of 2019</title>
+                <meta charSet="utf-8" />
+                <meta name="description" content="A dynamic top 10 boardgame list of 2019" />
+              </Helmet>
               <Grid item xs={12} container justify="center" direction="row">
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
                 <Grid item xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
@@ -291,12 +299,26 @@ class Top10List extends Component {
                       <Grid item xs = {12} key={item.bgg_id}>
                         <BGCard bg={item} order={index} topX={topX}/>
                       </Grid>
-                    )) : <div style={{display: "flex", justifyContent: "center"}}><ReactLoading type="spinningBubbles" color="red" height={'20%'} width={'20%'} /></div>}
+                    )) 
+                    :     
+                    <div>
+                      
+                     
+                      <Skeleton variant="rect" height={200} className="bg-skele-image" style={{marginBottom:24}} />
+                      <Skeleton variant="text" height={60} width={264} style={{marginBottom: 12}}/>
+                      <Skeleton variant="text" width="90%"/>
+                      <Skeleton variant="text" width="98%"/>
+                      <Skeleton variant="text" width="91%"/>
+                      <Skeleton variant="text" width="100%"/>
+                      <Skeleton variant="text" width="95%"/>
+                      <Skeleton variant="text" width="92%"/>
+
+                    </div>}
                   </Grid>
                   <Grid item md={4}>
                     <div style={{minWidth: 288, width:"100%", height:"auto", border:"1px solid lightgray", padding: 12}}>
-                      <Typography variant="h5">Filters: </Typography>
-                      <FilterTopX changeListState={this.changeListState}></FilterTopX>
+                      <Typography style={{marginBottom: 12}} variant="h4">Remove Data: </Typography>
+                      {/* <FilterTopX changeListState={this.changeListState}></FilterTopX> */}
                       <FilterOutChannel channels={channels} changeListState={this.changeListState}></FilterOutChannel>
                       <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
                     </div>
