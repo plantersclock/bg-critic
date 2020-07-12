@@ -5,6 +5,7 @@ import {BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOu
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import ReactLoading from 'react-loading';
+
 import Button from '@material-ui/core/Button';
 
 
@@ -22,7 +23,8 @@ class Top10List extends Component {
             channels: [],
             authors: [],
             filterOutChannels: [],
-            filterOutAuthors: []
+            filterOutAuthors: [],
+            channelAuthors: []
 
         };
 
@@ -34,6 +36,8 @@ class Top10List extends Component {
         this.getBGGArray = this.getBGGArray.bind(this);
         this.postBGGBase = this.postBGGBase.bind(this);
         this.updateList = this.updateList.bind(this);
+        this.alignChannelAuthor = this.alignChannelAuthor.bind(this);
+        this.getChannelAuthors = this.getChannelAuthors.bind(this);
 
       }
     
@@ -52,6 +56,7 @@ class Top10List extends Component {
             })
         })
 
+        this.getChannelAuthors()
         this.getBGGArray().then(result => {
           this.setState({structuredTop10: result})
         })
@@ -76,7 +81,68 @@ class Top10List extends Component {
         this.setState ({authors: uniqueAuthors})
       }
 
+      getChannelAuthors= async ()=>{
+        let {channels, top10items} = this.state
+        
+        console.log(channels)
+
+
+        if (channels.length > 0){
+
+          
+          let channelAuthors = {}
+          channels.map(channel => {
+            let authors = []
+            for (let i = 0; i < top10items.length; i++) {
+              if (top10items[i].channel === channel && !authors.includes(top10items[i].author)){
+                authors.push(top10items[i].author)
+              }
+            }
+            let newDict = {[channel]: authors}
+            channelAuthors = Object.assign({}, channelAuthors, newDict)
+
+          })
+
+        
+        this.setState ({channelAuthors: channelAuthors})
+        }
+        
+        
+
+      }
+
+      alignChannelAuthor(){
+        let {filterOutChannels, filterOutAuthors, channelAuthors} = this.state
+        
+        if (filterOutChannels.length > 0){
+
+          filterOutChannels.map(channel => {
+            console.log ("THIS IS THE STUFF")
+            console.log (channel)
+            console.log (channelAuthors)
+            console.log (channelAuthors[channel])
+            let authors = channelAuthors[channel]
+            let array = []
+            
+            authors.map(author =>{
+              if (!filterOutAuthors.includes(author)){
+                array.push(author)
+              }
+            })
+            console.log (array)
+            this.setState(prevState => ({
+              filterOutAuthors: [...prevState.filterOutAuthors, ...array]
+            }))
+
+          })
+
+        }
+                
+
+      }
+
       getTopX = async (items, topX) => {
+        this.alignChannelAuthor()
         let arrayFilteredOutChannels = this.state.filterOutChannels
         let arrayFilteredOutAuthors = this.state.filterOutAuthors
         let filteredItemsChannel = items.filter(({channel}) => !arrayFilteredOutChannels.includes(channel))
@@ -97,7 +163,8 @@ class Top10List extends Component {
             return {"bgg_id": result[0].bgg_id,
                     "manual_name": result[0].game,
                     "score": itemScore,
-                    "tie_breaker": result.length}
+                    "tie_breaker": result.length,
+                    "author_results": result}
           }
           return null
         })
@@ -205,12 +272,12 @@ class Top10List extends Component {
     render() {
         let content = this.state.structuredTop10.map(item => (<div key={item.bgg_id}>{item.name} - {item.bgg_id} - {item.score}</div>))
         let topXLoaded = false
-        let { topX, channels, authors } = this.state
+        let { topX, channels, authors, filterOutAuthors } = this.state
 
         if (this.state.structuredTop10.length > 0){
           topXLoaded = true
         }
-        // console.log (this.state.structuredTop10[0])
+        console.log (this.state.structuredTop10[0])
         // console.log (this.state.top10items)
         return (
             <div style={{width:"100%"}}>
@@ -219,19 +286,19 @@ class Top10List extends Component {
                 <Grid item xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
                   <Grid item xs={12} md={8}>
                     <Top10Title topX={this.state.topX}></Top10Title>
-                    <Top10SubText></Top10SubText>
+                    <Top10SubText xReviewers = {authors.length - filterOutAuthors.length}></Top10SubText>
                     {topXLoaded && this.state.topXLoaded ? this.state.structuredTop10.map((item, index) => (
                       <Grid item xs = {12} key={item.bgg_id}>
                         <BGCard bg={item} order={index} topX={topX}/>
                       </Grid>
-                    )) : <div><ReactLoading type="spinningBubbles" color="red" height={'20%'} width={'20%'} /></div>}
+                    )) : <div style={{display: "flex", justifyContent: "center"}}><ReactLoading type="spinningBubbles" color="red" height={'20%'} width={'20%'} /></div>}
                   </Grid>
                   <Grid item md={4}>
-                    <div style={{minWidth: 288, width:"100%", height:"100%", border:"1px solid lightgray", padding: 12}}>
+                    <div style={{minWidth: 288, width:"100%", height:"auto", border:"1px solid lightgray", padding: 12}}>
                       <Typography variant="h5">Filters: </Typography>
                       <FilterTopX changeListState={this.changeListState}></FilterTopX>
                       <FilterOutChannel channels={channels} changeListState={this.changeListState}></FilterOutChannel>
-                      <FilterOutAuthor authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
+                      <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
                     </div>
                   </Grid>
                 </Grid>

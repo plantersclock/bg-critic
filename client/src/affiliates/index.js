@@ -6,7 +6,7 @@ export const amazon = {
     269207: "https://amzn.to/3ec4AoS",
     219100: "https://amzn.to/32783mz",
     274364: "https://amzn.to/31QZsnP",
-    266192: "https://amzn.to/3fa54NI",
+    266192: "https://amzn.to/3ekkLAz",
     276025: "https://amzn.to/2Z7JUdz",
     285774: "https://amzn.to/2O3lk7f"
 }

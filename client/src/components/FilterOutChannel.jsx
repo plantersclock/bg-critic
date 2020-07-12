@@ -65,7 +65,7 @@ class FilterOutChannel extends Component {
                 <Typography variant="h6"> Filter Out Channel </Typography>
               </Grid>
               {channels.map((channel) => (
-              <Grid item xs={12}>
+              <Grid key={channel} item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox

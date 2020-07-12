@@ -26,12 +26,18 @@ class FilterOutAuthors extends Component {
         super(props);
         this.state = {
           channel:"",
-          removedAuthors : []
+          removedAuthors : this.props.removedAuthors
 
       };
 
         this.handleChange = this.handleChange.bind(this);
       }
+
+    componentDidUpdate(prevProps) {
+      if (prevProps.removedAuthors !== this.props.removedAuthors) {
+        this.setState({removedAuthors: this.props.removedAuthors})
+      }
+    }
 
     handleChange = async (e) => {
       let name = e.target.name
@@ -65,7 +71,7 @@ class FilterOutAuthors extends Component {
                 <Typography variant="h6"> Filter Out Author/Reviewer </Typography>
               </Grid>
               {authors.map((author) => (
-              <Grid item xs={12}>
+              <Grid key={author} item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox

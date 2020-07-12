@@ -27,7 +27,7 @@ class Top10SubText extends Component {
                   <Grid item xs={12}>
                     <Divider variant="middle" />    
                   </Grid>
-                  <Typography style={{padding: 20}} variant="h6">This list was generated from data collected from X reviewers' lists of the best boardgames of 2019</Typography>
+                  <Typography style={{padding: 20}} variant="h6">This list was generated from data collected from {this.props.xReviewers} reviewers' lists of the best boardgames of 2019</Typography>
                     
                   <Grid  item xs={12}> 
                     <Divider variant="middle" />    
