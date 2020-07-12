@@ -1,13 +1,16 @@
 
 import React, { Component } from 'react'
 import api from '../api'
-import {BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor} from '../components'
+import {BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter} from '../components'
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import ReactLoading from 'react-loading';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 import { Helmet } from 'react-helmet';
+import Hidden from '@material-ui/core/Hidden';
+
+
 
 import '../style/Top10List.css';
 
@@ -31,7 +34,7 @@ class Top10List extends Component {
 
         };
 
-    
+
         this.getTopX = this.getTopX.bind(this);
         this.changeListState = this.changeListState.bind(this);
         this.addBGGData = this.addBGGData.bind(this);
@@ -43,7 +46,7 @@ class Top10List extends Component {
         this.getChannelAuthors = this.getChannelAuthors.bind(this);
 
       }
-    
+
       componentDidMount = async () => {
         this.setState({ isLoading: true })
 
@@ -64,13 +67,13 @@ class Top10List extends Component {
           this.setState({structuredTop10: result})
         })
 
-        
+
 
       }
-    
+
       componentDidUpdate(){
 
-    
+
 
       }
 
@@ -86,13 +89,13 @@ class Top10List extends Component {
 
       getChannelAuthors= async ()=>{
         let {channels, top10items} = this.state
-        
+
         console.log(channels)
 
 
         if (channels.length > 0){
 
-          
+
           let channelAuthors = {}
           channels.map(channel => {
             let authors = []
@@ -106,17 +109,17 @@ class Top10List extends Component {
 
           })
 
-        
+
         this.setState ({channelAuthors: channelAuthors})
         }
-        
-        
+
+
 
       }
 
       alignChannelAuthor(){
         let {filterOutChannels, filterOutAuthors, channelAuthors} = this.state
-        
+
         if (filterOutChannels.length > 0){
 
           filterOutChannels.map(channel => {
@@ -126,7 +129,7 @@ class Top10List extends Component {
             console.log (channelAuthors[channel])
             let authors = channelAuthors[channel]
             let array = []
-            
+
             authors.map(author =>{
               if (!filterOutAuthors.includes(author)){
                 array.push(author)
@@ -140,7 +143,7 @@ class Top10List extends Component {
           })
 
         }
-                
+
 
       }
 
@@ -176,11 +179,11 @@ class Top10List extends Component {
         itemArray = itemArray.slice(0, topX)
         itemArray = itemArray.sort(function(a, b){return a.score - b.score})
 
-        this.setState({sortedTop10Items: itemArray})  
+        this.setState({sortedTop10Items: itemArray})
         return null
       }
 
-      
+
       getBGGArray = async () => {
         return Promise.all(this.state.sortedTop10Items.map(item=>this.checkBGGInDB(item)))
       }
@@ -205,7 +208,7 @@ class Top10List extends Component {
             // console.log(response)
             return Object.assign({}, item, bgg_data);
           }
-         
+
           if (retries > 0 && response.status !== 400) {
             console.log ("Retrying retries")
             console.log(response)
@@ -214,14 +217,14 @@ class Top10List extends Component {
             console.log("Can't find "+(item.manual_name) +` In Database or BGG`)
             console.log(item)
             return item;
-    
+
           }
         })
 
       }
 
       postBGGBase = async (data) => {
-        let BGGData = 
+        let BGGData =
           [{
             gameId: data.gameId,
             playingTime: data.playingTime,
@@ -237,7 +240,7 @@ class Top10List extends Component {
             image: data.image,
             thumbnail: data.thumbnail,
             mechanics: data.mechanics,
-            isExpansion: data.isExpansion,        
+            isExpansion: data.isExpansion,
           }]
 
 
@@ -245,7 +248,7 @@ class Top10List extends Component {
         //   console.log(res)
         //   console.log(`Found inserted successfully`)
         // })
-        
+
         await api.insertBGGBase(BGGData).then(async () => {
             await console.log(BGGData[0].gameId + ` inserted successfully`)
         })
@@ -260,7 +263,7 @@ class Top10List extends Component {
         this.setState({topXLoaded: false})
         await this.setState({[name]: value})
         await this.updateList()
-        
+
       }
 
       updateList(){
@@ -280,7 +283,7 @@ class Top10List extends Component {
         if (this.state.structuredTop10.length > 0){
           topXLoaded = true
         }
-        console.log (this.state.structuredTop10[0])
+        console.log (this.state.structuredTop10)
         // console.log (this.state.top10items)
         return (
             <div style={{width:"100%"}}>
@@ -299,11 +302,11 @@ class Top10List extends Component {
                       <Grid item xs = {12} key={item.bgg_id}>
                         <BGCard bg={item} order={index} topX={topX}/>
                       </Grid>
-                    )) 
-                    :     
+                    ))
+                    :
                     <div>
-                      
-                     
+
+
                       <Skeleton variant="rect" height={200} className="bg-skele-image" style={{marginBottom:24}} />
                       <Skeleton variant="text" height={60} width={264} style={{marginBottom: 12}}/>
                       <Skeleton variant="text" width="90%"/>
@@ -315,19 +318,23 @@ class Top10List extends Component {
 
                     </div>}
                   </Grid>
+                  <Hidden smDown>
                   <Grid item md={4}>
-                    <div style={{minWidth: 288, width:"100%", height:"auto", border:"1px solid lightgray", padding: 12}}>
+                    <div style={{width:"100%", height:"auto", border:"1px solid lightgray", marginTop:24, padding: 24}}>
                       <Typography style={{marginBottom: 12}} variant="h4">Remove Data: </Typography>
                       {/* <FilterTopX changeListState={this.changeListState}></FilterTopX> */}
                       <FilterOutChannel channels={channels} changeListState={this.changeListState}></FilterOutChannel>
                       <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
                     </div>
                   </Grid>
+                  </Hidden>
                 </Grid>
-                
+
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
               </Grid>
-              {content}
+              <Hidden mdUp>
+                <MobileFilter channels={channels} filterOutAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}/>
+              </Hidden>
             </div>
         )
     }

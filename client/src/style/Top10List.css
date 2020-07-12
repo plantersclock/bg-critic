@@ -1,3 +1,9 @@
+.filter-list-button {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+}
+
 @media only screen and (min-width: 960px) {
     .bg-skele-image{
         height: 400px !important;
