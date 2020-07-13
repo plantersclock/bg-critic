@@ -35,7 +35,7 @@ class NavBar extends Component {
         return (
             <div style={{height: 78}}>
 
-                        <Toolbar style={{height: 78, backgroundColor: "#92b1a9"}}>
+                        <Toolbar style={{height: 78, backgroundColor: "#64817a"}}>
                         <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
                             <Grid item xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
                             <Grid container xs={12}>
