@@ -6,5 +6,6 @@ import FilterTopX from './FilterTopX'
 import FilterOutChannel from './FilterOutChannel'
 import FilterOutAuthor from './FilterOutAuthor'
 import MobileFilter from './MobileFilter'
+import Footer from './Footer'
 
-export { NavBar, BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter }
+export { NavBar, BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter, Footer }

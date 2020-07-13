@@ -105,7 +105,9 @@ class BGCard extends Component {
                   <Typography style={{minHeight: 120, maxHeight: 120, overflow: "hidden"}} variant="body2" color="textSecondary" component="p">
                     {this.convert(description)}
                   </Typography>
-                  <Button target="_blank" variant="outlined" color="Secondary" style={{marginTop: 12}} href={amazonLinkText}>Buy</Button>
+                  <Hidden smUp>
+                    <Button target="_blank" variant="outlined" color="Secondary" style={{marginTop: 12}} href={amazonLinkText}>Buy</Button>
+                  </Hidden>
                   <Grid item container xs={12} style={{paddingBottom: 0, paddingTop: 24}}>
                     <Grid item container direction="column" xs={4} justify="center" alignItems="center">
                       <PeopleIcon/>
