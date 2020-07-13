@@ -41,10 +41,10 @@ class NavBar extends Component {
                             <Grid container xs={12}>
                                 <Grid item container xs={12}>
                                     <div className="navbar-left-text">
-                                        <TT10Logo className="navbar-logo" style={{paddingRight: 12}} />
-                                        <Typography className ="navbar-left-text-font">
-                                            <span style={{color: "#e75723"}}>Table</span>
-                                            <span style={{color: "#E9E3D9"}}>Top10</span>
+                                        {/* <TT10Logo className="navbar-logo"  /> */}
+                                        <Typography style={{paddingRight: 12}} className ="navbar-left-text-font">
+                                            <span style={{color: "white"}}>Table</span>
+                                            <span style={{color: "white", textDecoration: "underline"}}>Top10</span>
                                         </Typography>
                                     </div>
 

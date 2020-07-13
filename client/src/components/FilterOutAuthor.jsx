@@ -66,10 +66,7 @@ class FilterOutAuthors extends Component {
 
 
         return (
-            <div style={{width: "100%"}}>               
-              <Grid item xs={12}>
-                <Typography variant="h6">Reviewers:</Typography>
-              </Grid>
+            <div style={{width: "100%"}}>
               {authors.map((author) => (
               <Grid key={author} item xs={12}>
                 <FormControlLabel
@@ -85,7 +82,7 @@ class FilterOutAuthors extends Component {
               />
               </Grid>
               ))}
-                          
+
             </div>
         )
     }

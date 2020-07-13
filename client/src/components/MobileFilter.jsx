@@ -4,7 +4,8 @@ import Fab from '@material-ui/core/Fab';
 import {FilterOutChannel, FilterOutAuthor} from '../components'
 import Hidden from '@material-ui/core/Hidden';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import Drawer from '@material-ui/core/Drawer';
+import { Typography, Accordion, AccordionSummary, Drawer, AccordionDetails} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 
@@ -41,14 +42,40 @@ class MobileFilter extends Component {
                 </Fab>
                 <Drawer anchor="right" open={this.state.drawerOpen} onClose={()=>this.toggleDrawer(false)}>
                     <div style={{padding: "24px"}}>
-                    {channels !== undefined ?
-                    <FilterOutChannel channels={channels} changeListState={this.props.changeListState}/>
-                    :
-                    <div></div>}
-                    {authors !== undefined ?
-                    <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.props.changeListState}/>
-                    :
-                    <div></div>}
+                    <Typography style={{marginBottom: 24}} variant="h6">Filter Out: </Typography>
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="channels-content"
+                        id="channels-header"
+                      >
+                        <Typography >Channels</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                      {channels !== undefined ?
+                      <FilterOutChannel channels={channels} changeListState={this.props.changeListState}/>
+                      :
+                      <div></div>}
+                      </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="authors-content"
+                          id="authors-header"
+                        >
+                          <Typography >Reviewers</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                        {authors !== undefined ?
+                        <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.props.changeListState}/>
+                        :
+                        <div></div>}
+                        </AccordionDetails>
+                      </Accordion>
+
+
                     </div>
                 </Drawer>
 

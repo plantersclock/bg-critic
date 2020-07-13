@@ -3,12 +3,14 @@ import React, { Component } from 'react'
 import api from '../api'
 import {BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter} from '../components'
 import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
+import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
 import ReactLoading from 'react-loading';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Fab from '@material-ui/core/Fab';
 import { Helmet } from 'react-helmet';
 import Hidden from '@material-ui/core/Hidden';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 
 
 
@@ -321,10 +323,34 @@ class Top10List extends Component {
                   <Hidden smDown>
                   <Grid item md={4}>
                     <div style={{width:"100%", height:"auto", border:"1px solid lightgray", marginTop:24, padding: 24}}>
-                      <Typography style={{marginBottom: 12}} variant="h4">Remove Data: </Typography>
+                      <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="channels-content"
+                          id="channels-header"
+                        >
+                          <Typography >Channels</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <FilterOutChannel channels={channels} changeListState={this.changeListState}></FilterOutChannel>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="authors-content"
+                          id="authors-header"
+                        >
+                          <Typography >Reviewers</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
+                        </AccordionDetails>
+                      </Accordion>
                       {/* <FilterTopX changeListState={this.changeListState}></FilterTopX> */}
-                      <FilterOutChannel channels={channels} changeListState={this.changeListState}></FilterOutChannel>
-                      <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
+
+
                     </div>
                   </Grid>
                   </Hidden>

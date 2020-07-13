@@ -49,9 +49,9 @@ class BGCard extends Component {
       };
       for(var char in multiple) {
         var before = char;
-        var after= multiple[char]; 
+        var after= multiple[char];
         var pattern = new RegExp(before, 'g');
-        string = string.replace(pattern,after);    
+        string = string.replace(pattern,after);
       }
       return string;}
       catch {
@@ -64,19 +64,21 @@ class BGCard extends Component {
       let {bg, order, topX} = this.props
       let description = ""
       let amazonLink = undefined
-      
+      let amazonLinkText
+
       if (this.props.bg !== undefined && this.props.bg !==null){
         isLoaded=true
         description = bg.description
 
         if (amazon[bg.bgg_id] !== undefined){
+          amazonLinkText = amazon[bg.bgg_id].text
           amazonLink = amazon[bg.bgg_id].text_image
         }
 
       }
       return (
         <div>
-          {isLoaded ? 
+          {isLoaded ?
           <div>
             <CardMedia className ="bg-card-image"
               component="img"
@@ -91,10 +93,10 @@ class BGCard extends Component {
 
 
 
-       
+
               {amazonLink !== undefined ?
               <Grid style={{marginBottom: 24}} item container xs={12}>
-                
+
                 <Grid item xs ={12} sm = {9}>
                   <Typography gutterBottom>
                     <span className="bggcard-game-title">{topX-order}. {bg.name}</span>
@@ -102,6 +104,7 @@ class BGCard extends Component {
                   <Typography style={{minHeight: 120, maxHeight: 120, overflow: "hidden"}} variant="body2" color="textSecondary" component="p">
                     {this.convert(description)}
                   </Typography>
+                  <Button target="_blank" variant="outlined" color="Secondary" style={{marginTop: 12}} href={amazonLinkText}>Buy</Button>
                   <Grid item container xs={12} style={{paddingBottom: 0, paddingTop: 24}}>
                     <Grid item container direction="column" xs={4} justify="center" alignItems="center">
                       <PeopleIcon/>
@@ -122,7 +125,7 @@ class BGCard extends Component {
                     <iframe style={{width:120, height:240, paddingLeft: 22}} marginWidth="0" marginHeight="0" scrolling="no" frameBorder="0" src={amazonLink}></iframe>
                   </Grid>
                 </Hidden>
-              </Grid> 
+              </Grid>
               :
               <Grid style={{marginBottom: 24}} item container xs={12}>
                 <Grid item xs ={12} sm = {12}>
@@ -149,7 +152,7 @@ class BGCard extends Component {
                 </Grid>
               </Grid>}
 
-              
+
 
               <Grid item container xs = {12} style={{marginBottom: 24}}>
                 <TableContainer component={Paper}>
@@ -159,7 +162,7 @@ class BGCard extends Component {
                         <TableCell>Author/Reviewer</TableCell>
                         <TableCell align="right">Ranking</TableCell>
                         <TableCell align="right">Channel</TableCell>
-                        
+
                         <TableCell align="right">Source</TableCell>
                       </TableRow>
                     </TableHead>
@@ -169,7 +172,7 @@ class BGCard extends Component {
                           <TableCell component="th" scope="row">{result.author}</TableCell>
                           <TableCell align="right">{result.rating}</TableCell>
                           <TableCell align="right"><a href = {result.channel_link} target="_blank">{result.channel}</a></TableCell>
-                          
+
                           <TableCell align="right"><a href = {result.source} target="_blank"> Source </a></TableCell>
                         </TableRow>
                       ))}
@@ -180,7 +183,7 @@ class BGCard extends Component {
 
 
 
-          
+
         </div> :
         <div></div>}
       </div>
