@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import {amazon} from '../affiliates'
 import PeopleIcon from '@material-ui/icons/People';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -19,6 +18,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
+import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 import '../style/BGCard.css';
@@ -155,14 +156,23 @@ class BGCard extends Component {
 
 
               <Grid item container xs = {12} style={{marginBottom: 24}}>
-                <TableContainer component={Paper}>
+              <div style={{width: "100%"}}>
+              <Accordion >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="reviewer-rankings-content"
+                  id="reviewer-rankings-header"
+                >
+                  <Typography >Reviewer Rankings</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                <TableContainer>
                   <Table size="small" aria-label="a dense table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Author/Reviewer</TableCell>
+                        <TableCell>Reviewer</TableCell>
                         <TableCell align="right">Ranking</TableCell>
                         <TableCell align="right">Channel</TableCell>
-
                         <TableCell align="right">Source</TableCell>
                       </TableRow>
                     </TableHead>
@@ -179,6 +189,10 @@ class BGCard extends Component {
                     </TableBody>
                   </Table>
                 </TableContainer>
+                </AccordionDetails>
+              </Accordion>
+              </div>
+
               </Grid>
 
 
