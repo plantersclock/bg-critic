@@ -280,8 +280,9 @@ class Top10List extends Component {
     render() {
         let content = this.state.structuredTop10.map(item => (<div key={item.bgg_id}>{item.name} - {item.bgg_id} - {item.score}</div>))
         let topXLoaded = false
-        let { topX, channels, authors, filterOutAuthors } = this.state
-
+        let { topX, channels, authors, filterOutAuthors, filterOutChannels } = this.state
+        console.log ("THIS IS STUFF")
+        console.log (filterOutChannels)
         if (this.state.structuredTop10.length > 0){
           topXLoaded = true
         }
@@ -354,7 +355,7 @@ class Top10List extends Component {
                           <Typography >Channels</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          <FilterOutChannel channels={channels} changeListState={this.changeListState}></FilterOutChannel>
+                          <FilterOutChannel removedChannels={filterOutChannels} channels={channels} changeListState={this.changeListState}></FilterOutChannel>
                         </AccordionDetails>
                       </Accordion>
                       <Accordion>
@@ -380,7 +381,7 @@ class Top10List extends Component {
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
               </Grid>
               <Hidden mdUp>
-                <MobileFilter channels={channels} filterOutAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}/>
+                <MobileFilter channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}/>
               </Hidden>
             </div>
         )

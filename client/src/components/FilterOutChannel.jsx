@@ -26,12 +26,18 @@ class FilterOutChannel extends Component {
         super(props);
         this.state = {
           channel:"",
-          removedChannels : []
+          removedChannels : this.props.removedChannels
 
       };
 
         this.handleChange = this.handleChange.bind(this);
       }
+
+    componentDidUpdate(prevProps) {
+      if (prevProps.removedChannels !== this.props.removedChannels) {
+        this.setState({removedChannels: this.props.removedChannels})
+      }
+    }
 
     handleChange = async (e) => {
       let name = e.target.name
@@ -57,6 +63,8 @@ class FilterOutChannel extends Component {
     render() {
       let {channels} = this.props
       let { removedChannels} = this.state
+
+      console.log (removedChannels)
 
 
         return (

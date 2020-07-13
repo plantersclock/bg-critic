@@ -2,7 +2,14 @@
     position: fixed !important;
     bottom: 24px !important;
     right: 24px !important;
-    z-index: 4999
+    z-index: 499
+}
+
+.filter-list-button {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    z-index: 999
 }
 
 @media only screen and (min-width: 960px) {
