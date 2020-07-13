@@ -23,19 +23,19 @@ class Top10SubText extends Component {
 
     render() {
         return (
-            <div style={{width: "100%"}}> 
+            <div style={{width: "100%"}}>
                   <Grid item xs={12}>
-                    <Divider style={{width: "100%"}} />    
+                    <Divider style={{width: "100%"}} />
                   </Grid>
-                  <Typography style={{padding: "20px 0px"}} variant="h6">Generated from {this.props.xReviewers} reviewers' lists of the best boardgames of 2019</Typography>
-                    
-                  <Grid  item xs={12}> 
-                    <Divider style={{width: "100%"}} />    
+                  <Typography style={{padding: "12px 0px"}} variant="body1">Generated from {this.props.xReviewers} reviewers' lists of the best boardgames of 2019</Typography>
+
+                  <Grid  item xs={12}>
+                    <Divider style={{width: "100%"}} />
                   </Grid>
-                  <Grid container item xs={12}> 
-                    <Typography style={{padding: "20px 0px"}} variant="caption">Data Compiled By: Matthew Wright</Typography>
+                  <Grid container item xs={12}>
+                    <Typography style={{padding: "12px 0px"}} variant="caption">Data Compiled By: Matthew Wright</Typography>
                   </Grid>
-                          
+
             </div>
         )
     }

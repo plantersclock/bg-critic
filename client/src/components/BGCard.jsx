@@ -88,8 +88,9 @@ class BGCard extends Component {
               height="200"
               image={bg.image}
               title={bg.name}
-              style={{marginBottom: 24}}
+              style={{marginBottom: 6}}
             />
+            <a style={{marginBottom: 24, color:"gray", textDecoration: "none"}} href={'https://www.boardgamegeek.com/boardgame/'+bg.bgg_id}><Typography variant="caption">(source)</Typography></a>
 
 
 

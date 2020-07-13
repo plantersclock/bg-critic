@@ -308,15 +308,36 @@ class Top10List extends Component {
                     :
                     <div>
 
-
-                      <Skeleton variant="rect" height={200} className="bg-skele-image" style={{marginBottom:24}} />
-                      <Skeleton variant="text" height={60} width={264} style={{marginBottom: 12}}/>
-                      <Skeleton variant="text" width="90%"/>
-                      <Skeleton variant="text" width="98%"/>
-                      <Skeleton variant="text" width="91%"/>
-                      <Skeleton variant="text" width="100%"/>
-                      <Skeleton variant="text" width="95%"/>
-                      <Skeleton variant="text" width="92%"/>
+                      <div style={{marginBottom: 24}}>
+                        <Skeleton variant="rect" height={200} className="bg-skele-image" style={{marginBottom:24}} />
+                        <Skeleton variant="text" height={60} width={264} style={{marginBottom: 12}}/>
+                        <Skeleton variant="text" width="90%"/>
+                        <Skeleton variant="text" width="98%"/>
+                        <Skeleton variant="text" width="91%"/>
+                        <Skeleton variant="text" width="100%"/>
+                        <Skeleton variant="text" width="95%"/>
+                        <Skeleton variant="text" width="92%"/>
+                      </div>
+                      <div style={{marginBottom: 24}}>
+                        <Skeleton variant="rect" height={200} className="bg-skele-image" style={{marginBottom:24}} />
+                        <Skeleton variant="text" height={60} width={264} style={{marginBottom: 12}}/>
+                        <Skeleton variant="text" width="90%"/>
+                        <Skeleton variant="text" width="98%"/>
+                        <Skeleton variant="text" width="91%"/>
+                        <Skeleton variant="text" width="100%"/>
+                        <Skeleton variant="text" width="95%"/>
+                        <Skeleton variant="text" width="92%"/>
+                      </div>
+                      <div style={{marginBottom: 24}}>
+                        <Skeleton variant="rect" height={200} className="bg-skele-image" style={{marginBottom:24}} />
+                        <Skeleton variant="text" height={60} width={264} style={{marginBottom: 12}}/>
+                        <Skeleton variant="text" width="90%"/>
+                        <Skeleton variant="text" width="98%"/>
+                        <Skeleton variant="text" width="91%"/>
+                        <Skeleton variant="text" width="100%"/>
+                        <Skeleton variant="text" width="95%"/>
+                        <Skeleton variant="text" width="92%"/>
+                      </div>
 
                     </div>}
                   </Grid>
