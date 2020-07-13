@@ -10,7 +10,6 @@ import { Helmet } from 'react-helmet';
 import '../style/index.css';
 
 
-
 function App() {
     return (
 
