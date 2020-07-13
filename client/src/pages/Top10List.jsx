@@ -344,7 +344,7 @@ class Top10List extends Component {
                   </Grid>
                   <Hidden smDown>
                   <Grid item md={4}>
-                    <div style={{width:"100%", height:"auto", border:"1px solid lightgray", marginTop:24, padding: 24}}>
+                    <div style={{width:"100%", height:"auto", marginTop:38}}>
                       <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
                       <Accordion>
                         <AccordionSummary
