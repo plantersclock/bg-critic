@@ -292,7 +292,7 @@ class Top10List extends Component {
               <Helmet>
                 <title>Top 10 Boardgames of 2019</title>
                 <meta charSet="utf-8" />
-                <meta name="description" content="A dynamic top 10 boardgame list of 2019" />
+                <meta name="description" content="A dynamic top 10 boardgames list for the year 2019" />
               </Helmet>
               <Grid item xs={12} container justify="center" direction="row">
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
