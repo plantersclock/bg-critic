@@ -1,27 +1,17 @@
 
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+
 
 import Grid from '@material-ui/core/Grid';
-import AppBar from '@material-ui/core/AppBar';
+
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Slide from '@material-ui/core/Slide';
+
 import '../style/NavBar.css';
-import {ReactComponent as TT10Logo} from '../media/logo.svg';
+// import {ReactComponent as TT10Logo} from '../media/logo.svg';
 
 
-function HideOnScroll(props) {
-    const { children } = props;
-    const trigger = useScrollTrigger();
 
-    return (
-      <Slide appear={false} direction="down" in={!trigger}>
-        {children}
-      </Slide>
-    );
-  }
 
 
 class NavBar extends Component {

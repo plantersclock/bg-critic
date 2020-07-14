@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import Fab from '@material-ui/core/Fab';
 import {FilterOutChannel, FilterOutAuthor} from '../components'
-import Hidden from '@material-ui/core/Hidden';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { Typography, Accordion, AccordionSummary, Drawer, AccordionDetails} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';

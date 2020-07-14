@@ -1,12 +1,10 @@
 
 import React, { Component } from 'react'
 import api from '../api'
-import {BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter} from '../components'
+import {BGCard, Top10Title, Top10SubText, FilterOutChannel, FilterOutAuthor, MobileFilter} from '../components'
 import Grid from '@material-ui/core/Grid';
 import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
-import ReactLoading from 'react-loading';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Fab from '@material-ui/core/Fab';
 import { Helmet } from 'react-helmet';
 import Hidden from '@material-ui/core/Hidden';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -108,6 +106,7 @@ class Top10List extends Component {
             }
             let newDict = {[channel]: authors}
             channelAuthors = Object.assign({}, channelAuthors, newDict)
+            return null
 
           })
 
@@ -136,12 +135,13 @@ class Top10List extends Component {
               if (!filterOutAuthors.includes(author)){
                 array.push(author)
               }
+              return null
             })
             console.log (array)
             this.setState(prevState => ({
               filterOutAuthors: [...prevState.filterOutAuthors, ...array]
             }))
-
+            return null
           })
 
         }
@@ -278,7 +278,6 @@ class Top10List extends Component {
 
 
     render() {
-        let content = this.state.structuredTop10.map(item => (<div key={item.bgg_id}>{item.name} - {item.bgg_id} - {item.score}</div>))
         let topXLoaded = false
         let { topX, channels, authors, filterOutAuthors, filterOutChannels } = this.state
         console.log ("THIS IS STUFF")

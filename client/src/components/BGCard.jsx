@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+
 import Hidden from '@material-ui/core/Hidden';
 import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -86,7 +83,7 @@ class BGCard extends Component {
               loading="lazy"
               alt={bg.name}
               height="200"
-              image={bg.image}
+              image={bg.thumbnail}
               title={bg.name}
               style={{marginBottom: 6}}
             />
@@ -126,7 +123,7 @@ class BGCard extends Component {
                 </Grid>
                 <Hidden xsDown>
                   <Grid item container justify="flex-end" xs = {3}>
-                    <iframe style={{width:120, height:240, paddingLeft: 22}} marginWidth="0" marginHeight="0" scrolling="no" frameBorder="0" src={amazonLink}></iframe>
+                    <iframe title={"amazon link for "+bg.name} style={{width:120, height:240, paddingLeft: 22}} marginWidth="0" marginHeight="0" scrolling="no" frameBorder="0" src={amazonLink}></iframe>
                   </Grid>
                 </Hidden>
               </Grid>
@@ -184,9 +181,9 @@ class BGCard extends Component {
                         <TableRow key={result.author}>
                           <TableCell component="th" scope="row">{result.author}</TableCell>
                           <TableCell align="right">{result.rating}</TableCell>
-                          <TableCell align="right"><a href = {result.channel_link} target="_blank">{result.channel}</a></TableCell>
+                          <TableCell align="right"><a href = {result.channel_link} target="_blank" rel="noopener noreferrer">{result.channel}</a></TableCell>
 
-                          <TableCell align="right"><a href = {result.source} target="_blank"> Source </a></TableCell>
+                          <TableCell align="right"><a href = {result.source} target="_blank" rel="noopener noreferrer"> Source </a></TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
