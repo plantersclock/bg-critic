@@ -10,7 +10,7 @@ class Top10Insert extends Component {
         this.state = {
          
         };
-
+        this.createBGGInDB = this.createBGGInDB.bind(this);
     
       }
 
@@ -26,6 +26,86 @@ class Top10Insert extends Component {
         })
 
     }
+
+    createBGGInDB = async (bgg_id) => {
+        return await api.insertBGGBaseById(bgg_id).then(async (response) => {
+          if (response.statusText==="OK"){
+            console.log ("success")
+            return true;
+          }
+        }).catch(()=> console.log ("FAILURE"))
+      }
+
+    // checkBGGInDB = async (item) => {
+    //     return await api.getBGGBaseById(item.bgg_id).then(async (response) => {
+
+    //       if (response.statusText==="OK"){
+    //         let bgg_data = response.data.data
+    //         return Object.assign({}, item, bgg_data);
+    //       }
+    //     }).catch(()=> this.addBGGData(item))
+    //   }
+
+    //   addBGGData = async (item, retries=100) => {
+
+    //     return await fetch(`https://bgg-json.azurewebsites.net/thing/${item.bgg_id}`).then(async (response) => {
+    //       if (response.ok){
+    //         console.log ("success")
+    //         let bgg_data = await response.json()
+    //         this.postBGGBase(bgg_data)
+    //         // console.log(response)
+    //         return Object.assign({}, item, bgg_data);
+    //       }
+
+    //       if (retries > 0 && response.status !== 400) {
+    //         console.log ("Retrying retries")
+    //         console.log(response)
+    //         return this.addBGGData(item, retries - 1)
+    //       } else {
+    //         console.log("Can't find "+(item.manual_name) +` In Database or BGG`)
+    //         console.log(item)
+    //         return item;
+
+    //       }
+    //     })
+
+    //   }
+
+    //   postBGGBase = async (data) => {
+    //     let BGGData =
+    //       [{
+    //         gameId: data.gameId,
+    //         playingTime: data.playingTime,
+    //         yearPublished: data.yearPublished,
+    //         minPlayers: data.minPlayers,
+    //         maxPlayers: data.maxPlayers,
+    //         name: data.name,
+    //         artists: data.artists,
+    //         description: data.description,
+    //         designers: data.designers,
+    //         expansions: data.expansions,
+    //         publishers: data.publishers,
+    //         image: data.image,
+    //         thumbnail: data.thumbnail,
+    //         mechanics: data.mechanics,
+    //         isExpansion: data.isExpansion,
+    //       }]
+
+    //     await api.insertBGGBase(BGGData).then(async () => {
+    //         await console.log(BGGData[0].gameId + ` inserted successfully`)
+    //     })
+    //   }
+
+    checkBGGInDB = async (item) => {
+        return await api.getBGGBaseById(item.bgg_id).then(async (response) => {
+
+          if (response.statusText==="OK"){
+            let bgg_data = response.data.data
+            return Object.assign({}, item, bgg_data);
+          }
+        }).catch(()=> api.insertBGGBaseById(item.bgg_id))
+      }
+
     
     handleSubmit = (e) => {
     e.preventDefault()
@@ -50,6 +130,8 @@ class Top10Insert extends Component {
             "bgg_id": parseInt(bgg_id)
         }
 
+        this.checkBGGInDB(dataItem)
+
         return dataItem
         
     })
@@ -60,6 +142,7 @@ class Top10Insert extends Component {
 
     render() {
         let {author, channel, channel_link, source, year, games} = this.state
+        this.createBGGInDB(123)
         return (
             <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
                 <Grid item lg = {12} container>

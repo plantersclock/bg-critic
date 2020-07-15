@@ -25,7 +25,7 @@ class Top10SubText extends Component {
                   <Grid item xs={12}>
                     <Divider style={{width: "100%"}} />
                   </Grid>
-                  <Typography style={{padding: "12px 0px"}} variant="body1">Generated from {this.props.xReviewers} reviewers' lists of the best boardgames of 2019</Typography>
+                  <Typography style={{padding: "12px 0px"}} variant="body1">Generated from {this.props.xReviewers} reviewers' lists of the best boardgames of {this.props.year}</Typography>
 
                   <Grid  item xs={12}>
                     <Divider style={{width: "100%"}} />

@@ -22,7 +22,7 @@ function App() {
             <NavBar />
             <Switch>
                 <Route path="/top10/:year" exact component={Top10List} />
-                <Route path="/top10/create" exact component={Top10Insert} />
+                <Route path="/admin/top10/create" exact component={Top10Insert} />
                 <Route
                     path="/top10/update/:id"
                     exact

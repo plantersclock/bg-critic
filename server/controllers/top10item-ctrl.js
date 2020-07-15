@@ -110,6 +110,22 @@ getTop10ItemById = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+getTop10ItemsByYear = async (req, res) => {
+    console.log(req)
+    await Top10Item.find({ year: req.params.id }, (err, top10Item) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+
+        if (!top10Item) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Top 10 Item not found` })
+        }
+        return res.status(200).json({ success: true, data: top10Item })
+    }).catch(err => console.log(err))
+}
+
 getTop10Items = async (req, res) => {
     await Top10Item.find({}, (err, top10Items) => {
         if (err) {
@@ -130,4 +146,5 @@ module.exports = {
     deleteTop10Item,
     getTop10Items,
     getTop10ItemById,
+    getTop10ItemsByYear,
 }

@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import Fab from '@material-ui/core/Fab';
-import {FilterOutChannel, FilterOutAuthor} from '../components'
+import {FilterOutChannel, FilterOutAuthor, SelectYear} from '../components'
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { Typography, Accordion, AccordionSummary, Drawer, AccordionDetails} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -22,7 +22,9 @@ class MobileFilter extends Component {
 
     }
 
-
+      changeYear(year){
+        console.log(year)
+      }
 
       toggleDrawer(open){
         this.setState({drawerOpen: open});
@@ -41,6 +43,8 @@ class MobileFilter extends Component {
                 </Fab>
                 <Drawer className = "filter-list-drawer" anchor="right" open={this.state.drawerOpen} onClose={()=>this.toggleDrawer(false)}>
                     <div style={{padding: "24px"}}>
+                    <Typography style={{marginBottom: 12}} variant="h6">Change Year: </Typography>
+                    <SelectYear year={this.props.year} changeYear={this.props.changeYear}/>
                     <Typography style={{marginBottom: 24}} variant="h6">Filter Out: </Typography>
                     <Accordion>
                       <AccordionSummary

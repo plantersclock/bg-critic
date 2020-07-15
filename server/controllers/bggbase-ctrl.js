@@ -1,4 +1,5 @@
 const BGGBase = require('../models/bggbase-model')
+const fetch = require("node-fetch");
 
 createBGGBase = (req, res) => {
     const body = req.body
@@ -35,6 +36,89 @@ createBGGBase = (req, res) => {
         })
     })
 }
+
+const addBGGData = async (bgg_id, retries=100) => {
+  console.log("Trying Fetch")
+  return await fetch(`https://bgg-json.azurewebsites.net/thing/${bgg_id}`).then(async (response) => {
+    if (response.ok){
+      let bgg_data = await response.json()
+
+      // console.log(response)
+      let BGGData =
+      {
+        gameId: bgg_data.gameId,
+        playingTime: bgg_data.playingTime,
+        yearPublished: bgg_data.yearPublished,
+        minPlayers: bgg_data.minPlayers,
+        maxPlayers: bgg_data.maxPlayers,
+        name: bgg_data.name,
+        artists: bgg_data.artists,
+        description: bgg_data.description,
+        designers: bgg_data.designers,
+        expansions: bgg_data.expansions,
+        publishers: bgg_data.publishers,
+        image: bgg_data.image,
+        thumbnail: bgg_data.thumbnail,
+        mechanics: bgg_data.mechanics,
+        isExpansion: bgg_data.isExpansion,
+      }
+      console.log (BGGData)
+      return BGGData;
+    }
+
+    if (retries > 0 && response.status !== 400) {
+      console.log ("Retrying retries")
+      console.log(response)
+      return this.addBGGData(bgg_id, retries - 1)
+    } else {
+      console.log("Can't find "+(bgg_id) +` In Database or BGG`)
+      return;
+
+    }
+  })
+}
+
+createBGGBaseById = async (req, res) => {
+    const bgg_id = req.params.id
+    let bggBase
+    console.log (bgg_id)
+
+    if (!bgg_id) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a BGG Base ID',
+        })
+    }
+
+    bggData = await addBGGData(bgg_id)
+
+
+    console.log (bggData)
+    bggBase = new BGGBase(bggData)
+
+    console.log(bggBase)
+
+    if (!bggBase) {
+        return res.status(400).json({ success: false, error: err })
+    }
+
+    bggBase
+        .save()
+        .then(() => {
+            return res.status(201).json({
+                success: true,
+                id: bggBase._id,
+                message: 'BGG Base Item created!',
+            })
+        })
+        .catch(error => {
+            return res.status(400).json({
+                error,
+                message: 'BGG Base Item not created!',
+            })
+        })
+    }
+
 
 updateBGGBase = async (req, res) => {
     const body = req.body
@@ -126,6 +210,7 @@ getBGGBases = async (req, res) => {
 
 module.exports = {
     createBGGBase,
+    createBGGBaseById,
     updateBGGBase,
     deleteBGGBase,
     getBGGBases,

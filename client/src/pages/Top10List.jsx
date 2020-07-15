@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import api from '../api'
-import {BGCard, Top10Title, Top10SubText, FilterOutChannel, FilterOutAuthor, MobileFilter} from '../components'
+import {BGCard, Top10Title, Top10SubText, FilterOutChannel, FilterOutAuthor, MobileFilter, SelectYear} from '../components'
 import Grid from '@material-ui/core/Grid';
 import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -30,17 +30,19 @@ class Top10List extends Component {
             authors: [],
             filterOutChannels: [],
             filterOutAuthors: [],
-            channelAuthors: []
-
+            channelAuthors: [],
+            year: this.props.match.params.year
         };
 
 
         this.getTopX = this.getTopX.bind(this);
+        this.setupList = this.setupList.bind(this);
         this.changeListState = this.changeListState.bind(this);
-        this.addBGGData = this.addBGGData.bind(this);
+        this.changeYear = this.changeYear.bind(this);
+        // this.addBGGData = this.addBGGData.bind(this);
         this.checkBGGInDB = this.checkBGGInDB.bind(this);
         this.getBGGArray = this.getBGGArray.bind(this);
-        this.postBGGBase = this.postBGGBase.bind(this);
+        // this.postBGGBase = this.postBGGBase.bind(this);
         this.updateList = this.updateList.bind(this);
         this.alignChannelAuthor = this.alignChannelAuthor.bind(this);
         this.getChannelAuthors = this.getChannelAuthors.bind(this);
@@ -48,9 +50,38 @@ class Top10List extends Component {
       }
 
       componentDidMount = async () => {
-        this.setState({ isLoading: true })
+        
+        this.setupList()
 
-        await api.getAllTop10Items().then(top10items => {
+
+      }
+
+      componentDidUpdate = async(prevProps, prevState) =>{
+        if (this.state.year !== prevState.year){
+          this.setState({topXLoaded: false})
+          console.log("New State")
+          console.log(this.state.year)
+          console.log("Old State")
+          console.log(prevState.year)
+          this.setupList()
+
+
+
+        } else{
+          console.log ("ELSE")
+          console.log(this.state.year)
+          console.log(prevState.year)
+        }
+
+
+
+
+      }
+
+      setupList = async() =>{
+        console.log("my test")
+        this.setState({ isLoading: true })
+        await api.getTop10ItemsByYear(this.state.year).then(top10items => {
             this.setState({
                 top10items: top10items.data.data,
                 isLoading: false,
@@ -62,18 +93,11 @@ class Top10List extends Component {
             })
         })
 
-        this.getChannelAuthors()
-        this.getBGGArray().then(result => {
-          this.setState({structuredTop10: result})
+          this.getChannelAuthors()
+          this.getBGGArray().then(result => {
+          this.setState({structuredTop10: result,
+          topXLoaded: true})
         })
-
-
-
-      }
-
-      componentDidUpdate(){
-
-
 
       }
 
@@ -157,7 +181,6 @@ class Top10List extends Component {
         let filteredItems = filteredItemsChannel.filter(({author}) => !arrayFilteredOutAuthors.includes(author))
 
         let uniqueItems = filteredItems.map( (item) => item.bgg_id).filter( (item, index, _arr) => _arr.indexOf(item) === index);
-        // console.log (uniqueItems)
         let itemArray = uniqueItems.map(uniqueItem => {
 
           let result = filteredItems.filter(item => item.bgg_id === uniqueItem)
@@ -197,75 +220,21 @@ class Top10List extends Component {
             let bgg_data = response.data.data
             return Object.assign({}, item, bgg_data);
           }
-        }).catch(()=> this.addBGGData(item))
+        }).catch(()=> api.insertBGGBaseById(item.bgg_id))
       }
-
-      addBGGData = async (item, retries=100) => {
-
-        return await fetch(`https://bgg-json.azurewebsites.net/thing/${item.bgg_id}`).then(async (response) => {
-          if (response.ok){
-            console.log ("success")
-            let bgg_data = await response.json()
-            this.postBGGBase(bgg_data)
-            // console.log(response)
-            return Object.assign({}, item, bgg_data);
-          }
-
-          if (retries > 0 && response.status !== 400) {
-            console.log ("Retrying retries")
-            console.log(response)
-            return this.addBGGData(item, retries - 1)
-          } else {
-            console.log("Can't find "+(item.manual_name) +` In Database or BGG`)
-            console.log(item)
-            return item;
-
-          }
-        })
-
-      }
-
-      postBGGBase = async (data) => {
-        let BGGData =
-          [{
-            gameId: data.gameId,
-            playingTime: data.playingTime,
-            yearPublished: data.yearPublished,
-            minPlayers: data.minPlayers,
-            maxPlayers: data.maxPlayers,
-            name: data.name,
-            artists: data.artists,
-            description: data.description,
-            designers: data.designers,
-            expansions: data.expansions,
-            publishers: data.publishers,
-            image: data.image,
-            thumbnail: data.thumbnail,
-            mechanics: data.mechanics,
-            isExpansion: data.isExpansion,
-          }]
-
-
-        // await api.getBGGBaseById(BGGData.gameID).then(res => {
-        //   console.log(res)
-        //   console.log(`Found inserted successfully`)
-        // })
-
-        await api.insertBGGBase(BGGData).then(async () => {
-            await console.log(BGGData[0].gameId + ` inserted successfully`)
-        })
-      }
-
-
-
-
-
 
       changeListState = async (name, value) => {
         this.setState({topXLoaded: false})
         await this.setState({[name]: value})
         await this.updateList()
 
+      }
+
+      changeYear = async (new_year) => {
+        console.log(new_year)
+        await this.setState({year: new_year})
+        console.log(this.state.year)
+        this.props.history.push("/top10/"+new_year)
       }
 
       updateList(){
@@ -280,8 +249,6 @@ class Top10List extends Component {
     render() {
         let topXLoaded = false
         let { topX, channels, authors, filterOutAuthors, filterOutChannels } = this.state
-        console.log ("THIS IS STUFF")
-        console.log (filterOutChannels)
         if (this.state.structuredTop10.length > 0){
           topXLoaded = true
         }
@@ -290,16 +257,16 @@ class Top10List extends Component {
         return (
             <div style={{width:"100%"}}>
               <Helmet>
-                <title>Top 10 Boardgames of 2019</title>
+                <title>Top 10 Boardgames of {this.state.year}</title>
                 <meta charSet="utf-8" />
-                <meta name="description" content="A dynamic top 10 boardgames list for the year 2019" />
+                <meta name="description" content={"A dynamic top 10 boardgames list for the year " + this.state.year} />
               </Helmet>
               <Grid item xs={12} container justify="center" direction="row">
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
                 <Grid item xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
                   <Grid item xs={12} md={8}>
-                    <Top10Title topX={this.state.topX}></Top10Title>
-                    <Top10SubText xReviewers = {authors.length - filterOutAuthors.length}></Top10SubText>
+                    <Top10Title topX={this.state.topX} year={this.state.year}></Top10Title>
+                    <Top10SubText xReviewers = {authors.length - filterOutAuthors.length} year = {this.state.year}></Top10SubText>
                     {topXLoaded && this.state.topXLoaded ? this.state.structuredTop10.map((item, index) => (
                       <Grid item xs = {12} key={item.bgg_id}>
                         <BGCard bg={item} order={index} topX={topX}/>
@@ -344,6 +311,8 @@ class Top10List extends Component {
                   <Hidden smDown>
                   <Grid item md={4}>
                     <div style={{width:"100%", height:"auto", marginTop:38}}>
+                      <Typography style={{marginBottom: 12}} variant="h6">Change Year: </Typography>
+                      <SelectYear year={this.state.year} changeYear={this.changeYear}/>
                       <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
                       <Accordion>
                         <AccordionSummary
@@ -380,7 +349,7 @@ class Top10List extends Component {
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
               </Grid>
               <Hidden mdUp>
-                <MobileFilter channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}/>
+                <MobileFilter year={this.state.year} channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} authors={authors} changeYear={this.changeYear} changeListState={this.changeListState}/>
               </Hidden>
             </div>
         )

@@ -19,7 +19,9 @@ if (process.env.NODE_ENV === 'production') {
 
 export const insertTop10Item = payload => api.post(`/top10`, payload)
 export const insertBGGBase = payload => api.post(`/bgg`, payload)
+export const insertBGGBaseById = id => api.post(`/bgg/${id}`)
 export const getAllTop10Items = () => api.get(`/top10items`)
+export const getTop10ItemsByYear = (id) => api.get(`/top10items/${id}`)
 export const updateTop10ItemById = (id, payload) => api.put(`/top10/${id}`, payload)
 export const deleteTop10ItemById = id => api.delete(`/top10/${id}`)
 export const getTop10ItemById = id => api.get(`/top10/${id}`)
@@ -27,12 +29,14 @@ export const getBGGBaseById = id => api.get(`/bgg/${id}`)
 
 const apis = {
     insertBGGBase,
+    insertBGGBaseById,
     getBGGBaseById,
     insertTop10Item,
     getAllTop10Items,
     updateTop10ItemById,
     deleteTop10ItemById,
     getTop10ItemById,
+    getTop10ItemsByYear
 }
 
 export default apis

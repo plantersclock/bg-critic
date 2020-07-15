@@ -6,6 +6,7 @@ const BGGBaseCtrl = require('../controllers/bggbase-ctrl')
 const router = express.Router()
 
 router.post('/bgg', BGGBaseCtrl.createBGGBase)
+router.post('/bgg/:id', BGGBaseCtrl.createBGGBaseById)
 router.put('/bgg/:id', BGGBaseCtrl.updateBGGBase)
 router.delete('/bgg/:id', BGGBaseCtrl.deleteBGGBase)
 router.get('/bgg/:id', BGGBaseCtrl.getBGGBaseById)

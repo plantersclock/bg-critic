@@ -19,11 +19,11 @@ class Top10Title extends Component {
       }
 
     render() {
-      let {topX} = this.props
+      let {topX, year} = this.props
         return (
             <div style={{width: "100%"}}>
               <Grid item container xs={12}>
-                <Typography style={{paddingTop: 30}} gutterBottom variant="h4">Top {topX} Boardgames of 2019</Typography>
+                <Typography style={{paddingTop: 30}} gutterBottom variant="h4">Top {topX} Boardgames of {year}</Typography>
               </Grid>
 
             </div>

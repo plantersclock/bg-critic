@@ -10,5 +10,6 @@ router.put('/top10/:id', Top10ItemCtrl.updateTop10Item)
 router.delete('/top10/:id', Top10ItemCtrl.deleteTop10Item)
 router.get('/top10/:id', Top10ItemCtrl.getTop10ItemById)
 router.get('/top10items', Top10ItemCtrl.getTop10Items)
+router.get('/top10items/:id', Top10ItemCtrl.getTop10ItemsByYear)
 
 module.exports = router
