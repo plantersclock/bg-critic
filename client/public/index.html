@@ -3,9 +3,10 @@
   <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>
-      var host = "www.tabletop10.com" || "tabletop10.com";
-      if ((host == window.location.host) && (window.location.protocol != "https:")){
-      window.location.protocol = "https";
+      if (("www.tabletop10.com" == window.location.host) && (window.location.protocol != "https:")){
+        window.location.protocol = "https";
+      } else if  (("tabletop10.com" == window.location.host) && (window.location.protocol != "https:")){
+        window.location.protocol = "https";
       }
       </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q0JVSCR2TJ"></script>
