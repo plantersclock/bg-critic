@@ -1,9 +1,12 @@
 
+const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path'); 
 const compression = require('compression');
+
+
 require('dotenv').config();           
  
 
@@ -24,13 +27,15 @@ app.use('/api', top10ItemRouter)
 app.use('/api', bggBaseRouter)
 app.use(compression());
 
-if (process.env.NODE_ENV === 'production') {           
+if (process.env.NODE_ENV === 'production') {  
+           
     app.use(express.static('client/build'));
+    app.use(sslRedirect());
     
     console.log("__dirname")
     console.log(__dirname)
     console.log(path.resolve(path.join(__dirname, "../"), 'client', 'build', 'index.html'))
-  
+
     app.get('*', (req, res) => {
       res.sendFile(path.resolve(path.join(__dirname, "../"), 'client', 'build', 'index.html'));
     });
