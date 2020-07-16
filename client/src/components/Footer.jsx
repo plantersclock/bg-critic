@@ -18,14 +18,19 @@ class Footer extends Component {
         return (
             <div style={{height: 78}}>
 
-                        <Toolbar style={{height: 78, backgroundColor: "#dddddd", zIndex: 0}}>
+                        <Toolbar style={{height: 108, backgroundColor: "#F2F2F2", zIndex: 0}}>
                         <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
                             <Grid item xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
                             <Grid container xs={12}>
                                 <Grid item container alignContent= {"center"} justify={"center"} xs={12}>
 
                                         <Typography >
-                                            Created By: <a href="https://matthew-wright.com/">Matthew Wright</a>
+                                            <Grid container alignContent= {"center"} justify={"center"} item xs={12}>
+                                                Created By:&nbsp;<a style= {{color: "#333333", textDecoration: "none"}} href="https://matthew-wright.com/"> Matthew Wright</a>
+                                            </Grid>
+                                            <Grid container alignContent= {"center"} justify={"center"} item xs={12}>
+                                            <a style= {{color: "#333333", textDecoration: "none"}} href = "mailto: tabletop10@support.com">Contact us</a>
+                                            </Grid>
                                         </Typography>
 
 

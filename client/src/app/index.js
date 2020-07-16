@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import {NavBar, Footer} from '../components'
-import { Top10List, Top10Insert, Top10Update } from '../pages'
+import { Top10List } from '../pages'
 
 import { Helmet } from 'react-helmet';
 
@@ -22,12 +22,12 @@ function App() {
             <NavBar />
             <Switch>
                 <Route path="/top10/:year" exact component={Top10List} />
-                <Route path="/admin/top10/create" exact component={Top10Insert} />
+                {/* <Route path="/admin/top10/create" exact component={Top10Insert} />
                 <Route
                     path="/top10/update/:id"
                     exact
                     component={Top10Update}
-                />
+                /> */}
                 <Route render={() => <Redirect to="/top10/2019" />} />
             </Switch>
             <Footer/>

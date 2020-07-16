@@ -25,7 +25,7 @@ class Top10SubText extends Component {
                   <Grid item xs={12}>
                     <Divider style={{width: "100%"}} />
                   </Grid>
-                  <Typography style={{padding: "12px 0px"}} variant="body1">Generated from {this.props.xReviewers} reviewers' lists of the best boardgames of {this.props.year}</Typography>
+                  <Typography style={{padding: "12px 0px"}} variant="body1">The following list has been generated from {this.props.xReviewers} reviewers' lists of the best boardgames of {this.props.year}. Games are scored and ranked based on their appearance on Top 10 lists by popular reviewers, as well as their rankings on said lists. Please <a style= {{color: "#333333"}} href = "mailto: tabletop10@support.com">contact us</a> if you feel a list should be added to the data set. </Typography>
 
                   <Grid  item xs={12}>
                     <Divider style={{width: "100%"}} />

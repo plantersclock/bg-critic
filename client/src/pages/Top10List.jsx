@@ -286,7 +286,6 @@ class Top10List extends Component {
                         console.log ("MEOW")
                         order = order - 1
                       } else {
-                        
                         console.log (this.state.structuredTop10[index].score)
                         console.log (beforeScore)
                         console.log ("BARK")
