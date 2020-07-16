@@ -1,5 +1,4 @@
 
-const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -30,7 +29,12 @@ app.use(compression());
 if (process.env.NODE_ENV === 'production') {  
            
     app.use(express.static('client/build'));
-    app.use(sslRedirect());
+    app.use((req, res, next) => {
+      if (req.header('x-forwarded-proto') !== 'https')
+        res.redirect(`https://${req.header('host')}${req.url}`)
+      else
+        next()
+    })
     
     console.log("__dirname")
     console.log(__dirname)
