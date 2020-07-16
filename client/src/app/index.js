@@ -15,9 +15,9 @@ function App() {
 
         <Router>
             <Helmet>
-                <title>Top 10 Boardgames List By Year</title>
+                <title>Top 10 Board Games By Year</title>
                 <meta charSet="utf-8" />
-                <meta name="description" content="A dynamic top 10 list of boardgames by year" />
+                <meta name="description" content="A Dynamic Top 10 List of Board Games by Year" />
             </Helmet>
             <NavBar />
             <Switch>

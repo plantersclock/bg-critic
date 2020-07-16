@@ -201,7 +201,18 @@ class Top10List extends Component {
         })
 
         itemArray = itemArray.sort(function(a, b){return b.score - a.score})
-        itemArray = itemArray.slice(0, topX)
+
+
+        let beforeScore = 0
+        let count = topX
+        for (let j = 0; j < count; j++){
+          if (itemArray[j].score === beforeScore){
+            count += 1
+          }
+          beforeScore = itemArray[j].score
+        }
+
+        itemArray = itemArray.slice(0, count)
         itemArray = itemArray.sort(function(a, b){return a.score - b.score})
 
         this.setState({sortedTop10Items: itemArray})
@@ -249,6 +260,8 @@ class Top10List extends Component {
     render() {
         let topXLoaded = false
         let { topX, channels, authors, filterOutAuthors, filterOutChannels } = this.state
+        let order = -1
+        let beforeScore = 0
         if (this.state.structuredTop10.length > 0){
           topXLoaded = true
         }
@@ -257,9 +270,9 @@ class Top10List extends Component {
         return (
             <div style={{width:"100%"}}>
               <Helmet>
-                <title>Top 10 Boardgames of {this.state.year}</title>
+                <title>Top 10 Board Games of {this.state.year}</title>
                 <meta charSet="utf-8" />
-                <meta name="description" content={"A dynamic top 10 boardgames list for the year " + this.state.year} />
+                <meta name="description" content={"A Dynamic Top 10 Boardgames List for " + this.state.year} />
               </Helmet>
               <Grid item xs={12} container justify="center" direction="row">
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
@@ -267,11 +280,24 @@ class Top10List extends Component {
                   <Grid item xs={12} md={8}>
                     <Top10Title topX={this.state.topX} year={this.state.year}></Top10Title>
                     <Top10SubText xReviewers = {authors.length - filterOutAuthors.length} year = {this.state.year}></Top10SubText>
-                    {topXLoaded && this.state.topXLoaded ? this.state.structuredTop10.map((item, index) => (
-                      <Grid item xs = {12} key={item.bgg_id}>
-                        <BGCard bg={item} order={index} topX={topX}/>
-                      </Grid>
-                    ))
+                    {topXLoaded && this.state.topXLoaded ? this.state.structuredTop10.map((item, index) => {
+                      console.log ("Data = " + this.state.structuredTop10[index].score + " " + beforeScore)
+                      if (beforeScore === this.state.structuredTop10[index].score){
+                        console.log ("MEOW")
+                        order = order - 1
+                      } else {
+                        
+                        console.log (this.state.structuredTop10[index].score)
+                        console.log (beforeScore)
+                        console.log ("BARK")
+                        beforeScore = this.state.structuredTop10[index].score
+                       
+                      }
+                      order += 1
+                      return <Grid item xs = {12} key={item.bgg_id}>
+                              <BGCard bg={item} order={order} topX={topX}/>
+                            </Grid>
+                    })
                     :
                     <div>
 

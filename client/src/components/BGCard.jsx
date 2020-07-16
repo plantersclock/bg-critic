@@ -78,15 +78,37 @@ class BGCard extends Component {
         <div>
           {isLoaded ?
           <div>
-            <CardMedia className ="bg-card-image"
-              component="img"
-              loading="lazy"
-              alt={bg.name}
-              height="200"
-              image={bg.thumbnail}
-              title={bg.name}
-              style={{marginBottom: 6}}
-            />
+            <div className="bg-card-image-parent">
+              <div className="bg-card-image-background" style={{backgroundImage: `url(${bg.thumbnail})` }}>
+              </div>
+              <Hidden xsDown>
+                <div className="bg-card-image-center">
+                  <CardMedia className ="bg-card-image"
+                    component="img"
+                    loading="lazy"
+                    alt={bg.name}
+                    height="300"
+                    image={bg.image}
+                    title={bg.name}
+                    style={{marginBottom: 0}}
+                  />
+                </div>
+              </Hidden>
+              <Hidden smUp>
+                <div className="bg-card-image-center">
+                  <CardMedia className ="bg-card-image"
+                    component="img"
+                    loading="lazy"
+                    alt={bg.name}
+                    height="150"
+                    image={bg.thumbnail}
+                    title={bg.name}
+                    style={{marginBottom: 0}}
+                  />
+                </div>
+              </Hidden>
+            </div>
+ 
             <a style={{marginBottom: 24, color:"gray", textDecoration: "none"}} href={'https://www.boardgamegeek.com/boardgame/'+bg.bgg_id}><Typography variant="caption">(source)</Typography></a>
 
 
