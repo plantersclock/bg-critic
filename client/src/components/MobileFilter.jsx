@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import Fab from '@material-ui/core/Fab';
 import {FilterOutChannel, FilterOutAuthor, SelectYear} from '../components'
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Typography, Accordion, AccordionSummary, Drawer, AccordionDetails} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Typography, Drawer} from '@material-ui/core';
+
+
+import '../style/MobileFilter.css';
 
 
 
@@ -22,10 +24,6 @@ class MobileFilter extends Component {
 
     }
 
-      changeYear(year){
-        console.log(year)
-      }
-
       toggleDrawer(open){
         this.setState({drawerOpen: open});
       };
@@ -34,52 +32,23 @@ class MobileFilter extends Component {
 
 
     render() {
-        let {channels, authors, filterOutAuthors, filterOutChannels} = this.props
+        let {channels, authors, authorChannels, filterOutAuthors, filterOutChannels} = this.props
         return (
 
-            <div style={{width: "100%"}}>
+            <div>
                 <Fab color="secondary" aria-label="filter" className = "filter-list-button" onClick={()=>this.toggleDrawer(true)}>
                   <FilterListIcon />
                 </Fab>
-                <Drawer className = "filter-list-drawer" anchor="right" open={this.state.drawerOpen} onClose={()=>this.toggleDrawer(false)}>
-                    <div style={{padding: "24px"}}>
+                <Drawer anchor="right" open={this.state.drawerOpen} onClose={()=>this.toggleDrawer(false)}>
+
+                  <div style={{width: 250, padding: "24px"}}>
                     <Typography style={{marginBottom: 12}} variant="h6">Change Year: </Typography>
                     <SelectYear year={this.props.year} changeYear={this.props.changeYear}/>
-                    <Typography style={{marginBottom: 24}} variant="h6">Filter Out: </Typography>
-                    <Accordion>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="channels-content"
-                        id="channels-header"
-                      >
-                        <Typography >Channels</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                      {channels !== undefined ?
-                      <FilterOutChannel channels={channels} removedChannels={filterOutChannels} changeListState={this.props.changeListState}/>
-                      :
-                      <div></div>}
-                      </AccordionDetails>
-                    </Accordion>
+                    <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
+                    <FilterOutChannel channels={channels} removedChannels={filterOutChannels} changeListState={this.props.changeListState}/>
+                    <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} authorChannels={authorChannels} changeListState={this.props.changeListState}/>
+                  </div>
 
-                    <Accordion>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="authors-content"
-                        id="authors-header"
-                      >
-                        <Typography >Reviewers</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                      {authors !== undefined ?
-                      <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.props.changeListState}/>
-                      :
-                      <div></div>}
-                      </AccordionDetails>
-                    </Accordion>
-
-
-                    </div>
                 </Drawer>
 
 

@@ -28,7 +28,7 @@ class NavBar extends Component {
                         <Toolbar style={{height: 78, backgroundColor: "#64817a"}}>
                         <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
                             <Grid item xs= {12} sm = {10} md={10} lg={8} xl={6} container direction="row" spacing={4}  >
-                            <Grid container xs={12}>
+                            <Grid item container xs={12}>
                                 <Grid item container xs={12}>
                                     <div className="navbar-left-text">
                                         {/* <TT10Logo className="navbar-logo"  /> */}

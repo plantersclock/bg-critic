@@ -126,7 +126,7 @@ class BGCard extends Component {
                     {this.convert(description)}
                   </Typography>
                   <Hidden smUp>
-                    <Button target="_blank" variant="outlined" color="Secondary" style={{marginTop: 12}} href={amazonLinkText}>Buy</Button>
+                    <Button target="_blank" variant="outlined" color="secondary" style={{marginTop: 12}} href={amazonLinkText}>Buy</Button>
                   </Hidden>
                   <Grid item container xs={12} style={{paddingBottom: 0, paddingTop: 24}}>
                     <Grid item container direction="column" xs={4} justify="center" alignItems="center">

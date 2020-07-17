@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 import api from '../api'
 import {BGCard, Top10Title, Top10SubText, FilterOutChannel, FilterOutAuthor, MobileFilter, SelectYear} from '../components'
 import Grid from '@material-ui/core/Grid';
-import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
+import { Typography} from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Helmet } from 'react-helmet';
 import Hidden from '@material-ui/core/Hidden';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 
 
 
@@ -31,6 +31,7 @@ class Top10List extends Component {
             filterOutChannels: [],
             filterOutAuthors: [],
             channelAuthors: [],
+            authorChannels: [],
             year: this.props.match.params.year
         };
 
@@ -51,7 +52,7 @@ class Top10List extends Component {
 
       componentDidMount = async () => {
         
-        this.setupList()
+        this.setupList("first")
 
 
       }
@@ -59,18 +60,13 @@ class Top10List extends Component {
       componentDidUpdate = async(prevProps, prevState) =>{
         if (this.state.year !== prevState.year){
           this.setState({topXLoaded: false})
-          console.log("New State")
-          console.log(this.state.year)
-          console.log("Old State")
-          console.log(prevState.year)
+
           this.setupList()
 
 
 
         } else{
-          console.log ("ELSE")
-          console.log(this.state.year)
-          console.log(prevState.year)
+
         }
 
 
@@ -78,8 +74,7 @@ class Top10List extends Component {
 
       }
 
-      setupList = async() =>{
-        console.log("my test")
+      setupList = async(attempt) =>{
         this.setState({ isLoading: true })
         await api.getTop10ItemsByYear(this.state.year).then(top10items => {
             this.setState({
@@ -88,12 +83,16 @@ class Top10List extends Component {
                 listLoaded: true,
             }, () => {
               this.getTopX(this.state.top10items, this.state.topX)
-              this.getChannels(this.state.top10items)
-              this.getAuthors(this.state.top10items)
+              if (attempt = "first"){
+                this.getChannels(this.state.top10items)
+                this.getAuthors(this.state.top10items)
+              }
+              
             })
         })
-
-          this.getChannelAuthors()
+          if (attempt = "first"){
+            this.getChannelAuthors()
+          }
           this.getBGGArray().then(result => {
           this.setState({structuredTop10: result,
           topXLoaded: true})
@@ -108,13 +107,30 @@ class Top10List extends Component {
 
       getAuthors(items){
         let uniqueAuthors = items.map( (item) => item.author).filter( (item, index, _arr) => _arr.indexOf(item) === index);
+        let authorChannels = []
+        console.log (uniqueAuthors)
+        let authorItems
+
+        for (let i = 0; i < uniqueAuthors.length; i++) 
+          {
+            authorItems = items.filter(({author}) => author===uniqueAuthors[i])
+            
+
+            authorChannels.push(
+              {
+                "author": uniqueAuthors[i],
+                "channel": authorItems[0]["channel"]
+              }
+            )
+          }
+
         this.setState ({authors: uniqueAuthors})
+        this.setState ({authorChannels: authorChannels})
       }
 
       getChannelAuthors= async ()=>{
         let {channels, top10items} = this.state
 
-        console.log(channels)
 
 
         if (channels.length > 0){
@@ -134,7 +150,6 @@ class Top10List extends Component {
 
           })
 
-
         this.setState ({channelAuthors: channelAuthors})
         }
 
@@ -148,10 +163,7 @@ class Top10List extends Component {
         if (filterOutChannels.length > 0){
 
           filterOutChannels.map(channel => {
-            console.log ("THIS IS THE STUFF")
-            console.log (channel)
-            console.log (channelAuthors)
-            console.log (channelAuthors[channel])
+
             let authors = channelAuthors[channel]
             let array = []
 
@@ -161,7 +173,6 @@ class Top10List extends Component {
               }
               return null
             })
-            console.log (array)
             this.setState(prevState => ({
               filterOutAuthors: [...prevState.filterOutAuthors, ...array]
             }))
@@ -242,14 +253,14 @@ class Top10List extends Component {
       }
 
       changeYear = async (new_year) => {
-        console.log(new_year)
+
         await this.setState({year: new_year})
         console.log(this.state.year)
         this.props.history.push("/top10/"+new_year)
       }
 
       updateList(){
-        console.log(this.state.topX)
+
         this.getTopX(this.state.top10items, this.state.topX)
         this.getBGGArray().then(result => {this.setState({structuredTop10: result, topXLoaded: true})}
         )
@@ -259,13 +270,13 @@ class Top10List extends Component {
 
     render() {
         let topXLoaded = false
-        let { topX, channels, authors, filterOutAuthors, filterOutChannels } = this.state
+        let { topX, channels, authors, authorChannels, filterOutAuthors, filterOutChannels } = this.state
         let order = -1
         let beforeScore = 0
         if (this.state.structuredTop10.length > 0){
           topXLoaded = true
         }
-        console.log (this.state.structuredTop10)
+
         // console.log (this.state.top10items)
         return (
             <div style={{width:"100%"}}>
@@ -281,14 +292,12 @@ class Top10List extends Component {
                     <Top10Title topX={this.state.topX} year={this.state.year}></Top10Title>
                     <Top10SubText xReviewers = {authors.length - filterOutAuthors.length} year = {this.state.year}></Top10SubText>
                     {topXLoaded && this.state.topXLoaded ? this.state.structuredTop10.map((item, index) => {
-                      console.log ("Data = " + this.state.structuredTop10[index].score + " " + beforeScore)
+
                       if (beforeScore === this.state.structuredTop10[index].score){
-                        console.log ("MEOW")
+
                         order = order - 1
                       } else {
-                        console.log (this.state.structuredTop10[index].score)
-                        console.log (beforeScore)
-                        console.log ("BARK")
+
                         beforeScore = this.state.structuredTop10[index].score
                        
                       }
@@ -339,30 +348,10 @@ class Top10List extends Component {
                       <Typography style={{marginBottom: 12}} variant="h6">Change Year: </Typography>
                       <SelectYear year={this.state.year} changeYear={this.changeYear}/>
                       <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
-                      <Accordion>
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="channels-content"
-                          id="channels-header"
-                        >
-                          <Typography >Channels</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <FilterOutChannel removedChannels={filterOutChannels} channels={channels} changeListState={this.changeListState}></FilterOutChannel>
-                        </AccordionDetails>
-                      </Accordion>
-                      <Accordion>
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="authors-content"
-                          id="authors-header"
-                        >
-                          <Typography >Reviewers</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} changeListState={this.changeListState}></FilterOutAuthor>
-                        </AccordionDetails>
-                      </Accordion>
+
+                      <FilterOutChannel removedChannels={filterOutChannels} channels={channels} changeListState={this.changeListState}></FilterOutChannel>                      
+                      <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} authorChannels={authorChannels} changeListState={this.changeListState}></FilterOutAuthor>
+
                       {/* <FilterTopX changeListState={this.changeListState}></FilterTopX> */}
 
 
@@ -374,7 +363,7 @@ class Top10List extends Component {
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
               </Grid>
               <Hidden mdUp>
-                <MobileFilter year={this.state.year} channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} authors={authors} changeYear={this.changeYear} changeListState={this.changeListState}/>
+                <MobileFilter year={this.state.year} authorChannels={authorChannels} channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} authors={authors} changeYear={this.changeYear} changeListState={this.changeListState}/>
               </Hidden>
             </div>
         )
