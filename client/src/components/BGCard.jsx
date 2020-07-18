@@ -14,9 +14,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import LazyLoad from 'react-lazy-load';
+
 import Hidden from '@material-ui/core/Hidden';
 import { Typography, Accordion, AccordionSummary, AccordionDetails} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+
 
 
 import '../style/BGCard.css';
@@ -82,6 +86,7 @@ class BGCard extends Component {
               <div className="bg-card-image-background" style={{backgroundImage: `url(${bg.thumbnail})` }}>
               </div>
               <Hidden xsDown>
+                <LazyLoad offsetVertical={500}>
                 <div className="bg-card-image-center">
                   <CardMedia className ="bg-card-image"
                     component="img"
@@ -93,8 +98,10 @@ class BGCard extends Component {
                     style={{marginBottom: 0}}
                   />
                 </div>
+                </LazyLoad>
               </Hidden>
               <Hidden smUp>
+                <LazyLoad offsetVertical={500}>
                 <div className="bg-card-image-center">
                   <CardMedia className ="bg-card-image"
                     component="img"
@@ -106,6 +113,7 @@ class BGCard extends Component {
                     style={{marginBottom: 0}}
                   />
                 </div>
+                </LazyLoad>
               </Hidden>
             </div>
  
