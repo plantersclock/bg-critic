@@ -21,10 +21,12 @@ class Top10List extends Component {
         this.state = {
             isLoading: false,
             top10items: [],
+            top10ItemsBGG: [],
             listLoaded: false,
             topXLoaded: true,
             structuredTop10: [],
             sortedTop10Items: [],
+            combinedBGGWithTop10: [],
             topX: 10,
             channels: [],
             authors: [],
@@ -47,56 +49,93 @@ class Top10List extends Component {
         this.updateList = this.updateList.bind(this);
         this.alignChannelAuthor = this.alignChannelAuthor.bind(this);
         this.getChannelAuthors = this.getChannelAuthors.bind(this);
-
+        this.getTop10DataForYear = this.getTop10DataForYear.bind(this);
+        this.getMinMaxPlayers = this.getMinMaxPlayers.bind(this);
+        this.getMaxTime = this.getMaxTime.bind(this)
       }
 
       componentDidMount = async () => {
-        
+        await this.getBGGList() 
         this.setupList("first")
-
-
       }
 
       componentDidUpdate = async(prevProps, prevState) =>{
         if (this.state.year !== prevState.year){
           this.setState({topXLoaded: false})
-
+          await this.getTop10DataForYear()
           this.setupList()
-
-
-
-        } else{
-
+        } 
+        if (this.state.top10items !== prevState.top10items){
+          this.getBGGList()
+          }     
+        if (this.state.top10ItemsBGG !== prevState.top10ItemsBGG || this.state.top10items !== prevState.top10items){
+          this.combineBGGWithTop10()
+        }   
         }
 
-
-
+      getBGGList = ()=>{
+        return api.getBGGBases().then( response => this.setState({top10ItemsBGG: response.data.data})) 
 
       }
 
-      setupList = async(attempt) =>{
-        this.setState({ isLoading: true })
-        await api.getTop10ItemsByYear(this.state.year).then(top10items => {
-            this.setState({
-                top10items: top10items.data.data,
-                isLoading: false,
-                listLoaded: true,
-            }, () => {
-              this.getTopX(this.state.top10items, this.state.topX)
-              if (attempt = "first"){
-                this.getChannels(this.state.top10items)
-                this.getAuthors(this.state.top10items)
-              }
-              
-            })
-        })
-          if (attempt = "first"){
-            this.getChannelAuthors()
+      combineBGGWithTop10(){
+        let itemsWithBGG = this.state.top10ItemsBGG
+          let combinedBGGWithTop10 = {}
+          let newItem
+          for (let i = 0; i < this.state.top10items.length; i++) {
+
+            let filterData = itemsWithBGG.filter(dict => dict.gameId === this.state.top10items[i].bgg_id)
+            
+            newItem = {[this.state.top10items[i].bgg_id]: Object.assign({}, this.state.top10items[i], filterData[0])}
+     
+            combinedBGGWithTop10 = Object.assign({}, combinedBGGWithTop10, newItem);
           }
-          this.getBGGArray().then(result => {
-          this.setState({structuredTop10: result,
-          topXLoaded: true})
+          // this.combineTop10BGG().then(item =>console.log(item))
+
+          this.setState({combinedBGGWithTop10: combinedBGGWithTop10})
+
+
+      }
+      
+
+      getTop10DataForYear = async() =>{
+        await api.getTop10ItemsByYear(this.state.year).then(top10items => {
+          this.setState({
+              top10items: top10items.data.data,
+          })
         })
+      }
+
+      setupList = async(attempt) =>{
+
+          if (attempt === "first"){
+            await this.getTop10DataForYear()
+            this.getChannels(this.state.top10items)
+            this.getAuthors(this.state.top10items)
+            this.getChannelAuthors()
+              
+            // this.combineBGGWithTop10()
+          }
+          this.getMinMaxPlayers(this.state.top10items)
+          this.getMaxTime(this.state.top10items)
+          this.getTopX(this.state.top10items, this.state.topX)
+          // console.log(this.state.sortedTop10Items)
+          // console.log(this.state.combinedBGGWithTop10)
+          // console.log ("MONSTER TEST")
+
+          let result = (this.state.sortedTop10Items.map(item => Object.assign({}, this.state.combinedBGGWithTop10[item.bgg_id], item)))
+          // console.log (result)
+
+          // this.getBGGArray(this.state.sortedTop10Items).then(result => {
+            // console.log(result)
+            this.setState({structuredTop10: result,
+            topXLoaded: true})
+          // })
+
+          // this.setState({structuredTop10: result,
+          //               topXLoaded: true})
+           
+
 
       }
 
@@ -105,10 +144,17 @@ class Top10List extends Component {
         this.setState ({channels: uniqueChannels})
       }
 
+      getMinMaxPlayers(items){        
+       
+      }
+
+      getMaxTime(items){
+        
+      }
+
       getAuthors(items){
         let uniqueAuthors = items.map( (item) => item.author).filter( (item, index, _arr) => _arr.indexOf(item) === index);
         let authorChannels = []
-        console.log (uniqueAuthors)
         let authorItems
 
         for (let i = 0; i < uniqueAuthors.length; i++) 
@@ -190,7 +236,6 @@ class Top10List extends Component {
         let arrayFilteredOutAuthors = this.state.filterOutAuthors
         let filteredItemsChannel = items.filter(({channel}) => !arrayFilteredOutChannels.includes(channel))
         let filteredItems = filteredItemsChannel.filter(({author}) => !arrayFilteredOutAuthors.includes(author))
-
         let uniqueItems = filteredItems.map( (item) => item.bgg_id).filter( (item, index, _arr) => _arr.indexOf(item) === index);
         let itemArray = uniqueItems.map(uniqueItem => {
 
@@ -231,8 +276,8 @@ class Top10List extends Component {
       }
 
 
-      getBGGArray = async () => {
-        return Promise.all(this.state.sortedTop10Items.map(item=>this.checkBGGInDB(item)))
+      getBGGArray = async (items) => {
+        return Promise.all(items.map(item=>this.checkBGGInDB(item)))
       }
 
       checkBGGInDB = async (item) => {
@@ -245,25 +290,27 @@ class Top10List extends Component {
         }).catch(()=> api.insertBGGBaseById(item.bgg_id))
       }
 
-      changeListState = async (name, value) => {
-        this.setState({topXLoaded: false})
-        await this.setState({[name]: value})
-        await this.updateList()
-
-      }
-
       changeYear = async (new_year) => {
 
         await this.setState({year: new_year})
-        console.log(this.state.year)
         this.props.history.push("/top10/"+new_year)
       }
 
-      updateList(){
+      changeListState = async (name, value) => {
+        this.setState({topXLoaded: false})
+        await this.setState({[name]: value})
+        this.updateList()
+      }
 
+      updateList = async () => {
+        
         this.getTopX(this.state.top10items, this.state.topX)
-        this.getBGGArray().then(result => {this.setState({structuredTop10: result, topXLoaded: true})}
-        )
+        let result = (this.state.sortedTop10Items.map(item => Object.assign({}, this.state.combinedBGGWithTop10[item.bgg_id], item)))
+
+        this.setState({structuredTop10: result,
+        topXLoaded: true})
+        
+        
 
       }
 

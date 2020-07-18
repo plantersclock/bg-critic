@@ -54,7 +54,7 @@ class FilterOutChannel extends Component {
       let {channels} = this.props
       let { removedChannels} = this.state
 
-      console.log (removedChannels)
+
 
 
         return (

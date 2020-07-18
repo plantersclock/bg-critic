@@ -26,11 +26,13 @@ export const updateTop10ItemById = (id, payload) => api.put(`/top10/${id}`, payl
 export const deleteTop10ItemById = id => api.delete(`/top10/${id}`)
 export const getTop10ItemById = id => api.get(`/top10/${id}`)
 export const getBGGBaseById = id => api.get(`/bgg/${id}`)
+export const getBGGBases = id => api.get(`/bgg/`)
 
 const apis = {
     insertBGGBase,
     insertBGGBaseById,
     getBGGBaseById,
+    getBGGBases,
     insertTop10Item,
     getAllTop10Items,
     updateTop10ItemById,
