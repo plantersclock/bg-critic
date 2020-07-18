@@ -42,10 +42,6 @@ class Top10List extends Component {
         this.setupList = this.setupList.bind(this);
         this.changeListState = this.changeListState.bind(this);
         this.changeYear = this.changeYear.bind(this);
-        // this.addBGGData = this.addBGGData.bind(this);
-        this.checkBGGInDB = this.checkBGGInDB.bind(this);
-        this.getBGGArray = this.getBGGArray.bind(this);
-        // this.postBGGBase = this.postBGGBase.bind(this);
         this.updateList = this.updateList.bind(this);
         this.alignChannelAuthor = this.alignChannelAuthor.bind(this);
         this.getChannelAuthors = this.getChannelAuthors.bind(this);
@@ -113,30 +109,17 @@ class Top10List extends Component {
             this.getChannels(this.state.top10items)
             this.getAuthors(this.state.top10items)
             this.getChannelAuthors()
-              
-            // this.combineBGGWithTop10()
+
           }
           this.getMinMaxPlayers(this.state.top10items)
           this.getMaxTime(this.state.top10items)
           this.getTopX(this.state.top10items, this.state.topX)
-          // console.log(this.state.sortedTop10Items)
-          // console.log(this.state.combinedBGGWithTop10)
-          // console.log ("MONSTER TEST")
+
 
           let result = (this.state.sortedTop10Items.map(item => Object.assign({}, this.state.combinedBGGWithTop10[item.bgg_id], item)))
-          // console.log (result)
-
-          // this.getBGGArray(this.state.sortedTop10Items).then(result => {
-            // console.log(result)
-            this.setState({structuredTop10: result,
-            topXLoaded: true})
-          // })
-
-          // this.setState({structuredTop10: result,
-          //               topXLoaded: true})
-           
-
-
+          this.setState({structuredTop10: result,
+          topXLoaded: true})
+    
       }
 
       getChannels(items){
@@ -275,20 +258,19 @@ class Top10List extends Component {
         return null
       }
 
+      // getBGGArray = async (items) => {
+      //   return Promise.all(items.map(item=>this.checkBGGInDB(item)))
+      // }
 
-      getBGGArray = async (items) => {
-        return Promise.all(items.map(item=>this.checkBGGInDB(item)))
-      }
+      // checkBGGInDB = async (item) => {
+      //   return await api.getBGGBaseById(item.bgg_id).then(async (response) => {
 
-      checkBGGInDB = async (item) => {
-        return await api.getBGGBaseById(item.bgg_id).then(async (response) => {
-
-          if (response.statusText==="OK"){
-            let bgg_data = response.data.data
-            return Object.assign({}, item, bgg_data);
-          }
-        }).catch(()=> api.insertBGGBaseById(item.bgg_id))
-      }
+      //     if (response.statusText==="OK"){
+      //       let bgg_data = response.data.data
+      //       return Object.assign({}, item, bgg_data);
+      //     }
+      //   }).catch(()=> api.insertBGGBaseById(item.bgg_id))
+      // }
 
       changeYear = async (new_year) => {
 
@@ -324,7 +306,6 @@ class Top10List extends Component {
           topXLoaded = true
         }
 
-        // console.log (this.state.top10items)
         return (
             <div style={{width:"100%"}}>
               <Helmet>
