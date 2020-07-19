@@ -26,7 +26,7 @@ class SelectYear extends Component {
       let {year} = this.state
         return (
             <div style={{width: "100%"}}>
-              <Grid item container xs={12} style={{marginBottom: 24}}>
+              <Grid item container xs={12} style={{marginBottom: 12}}>
                 <TextField
                   id="standard-select-year"
                   select

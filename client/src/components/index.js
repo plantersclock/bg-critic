@@ -8,5 +8,6 @@ import FilterOutAuthor from './FilterOutAuthor'
 import MobileFilter from './MobileFilter'
 import SelectYear from './SelectYear'
 import Footer from './Footer'
+import FilterPlayerCount from './FilterPlayerCount'
 
-export { NavBar, BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter, Footer, SelectYear }
+export { NavBar, BGCard, Top10Title, Top10SubText, FilterTopX, FilterOutChannel, FilterOutAuthor, MobileFilter, Footer, SelectYear, FilterPlayerCount }

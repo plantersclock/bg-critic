@@ -208,7 +208,7 @@ class BGCard extends Component {
                     </TableHead>
                     <TableBody>
                       {bg.author_results.map((result)=> (
-                        <TableRow key={result.author}>
+                        <TableRow key={result.author+ "-" +bg.name }>
                           <TableCell component="th" scope="row">{result.author}</TableCell>
                           <TableCell align="right">{result.rating}</TableCell>
                           <TableCell align="right"><a href = {result.channel_link} target="_blank" rel="noopener noreferrer">{result.channel}</a></TableCell>

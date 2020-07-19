@@ -1,4 +1,6 @@
 const Top10Item = require('../models/top10item-model')
+const BGGBase = require('../models/bggbase-model')
+const _ = require('lodash')
 
 createTop10Item = (req, res) => {
     const body = req.body
@@ -111,19 +113,43 @@ getTop10ItemById = async (req, res) => {
 }
 
 getTop10ItemsByYear = async (req, res) => {
+
     console.log(req)
-    await Top10Item.find({ year: req.params.id }, (err, top10Item) => {
+    let top10Items = await Top10Item.find({ year: req.params.id }, (err, top10Items) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
 
-        if (!top10Item) {
+        if (!top10Items) {
             return res
                 .status(404)
                 .json({ success: false, error: `Top 10 Item not found` })
         }
-        return res.status(200).json({ success: true, data: top10Item })
+        // return res.status(200).json({ success: true, data: top10Items })
+        return top10Items
     }).catch(err => console.log(err))
+
+    
+    bggBases= await BGGBase.find({}, (err, bggBases) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!bggBases.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `BGG Base Items not found` })
+        }
+    }).catch(err => console.log(err))
+
+    top10Items = top10Items.map(top10Item => {
+        let bggItem = bggBases.filter(bggItem => bggItem.gameId === top10Item.bgg_id)[0]
+        return _.merge(top10Item, bggItem)
+
+    })
+
+
+
+    return res.status(200).json({ success: true, data: top10Items})
 }
 
 getTop10Items = async (req, res) => {
