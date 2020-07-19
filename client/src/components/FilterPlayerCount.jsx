@@ -16,7 +16,7 @@ class FilterPlayerCount extends Component {
 
         this.handleChange=this.handleChange.bind(this)
 
-        this.updateList = _.debounce(this.updateList, 500);
+        this.updateList = _.debounce(this.updateList, 300);
       }
 
     
@@ -25,11 +25,11 @@ class FilterPlayerCount extends Component {
       let playerCount = e.target.value
       this.setState({playerCount: playerCount})
 
-      this.updateList()
+      this.updateList(playerCount)
     }
 
-    updateList(){
-      this.props.changeListState("filterPlayerCount", this.state.playerCount)
+    updateList(playerCount){
+      this.props.changeListState("filterPlayerCount", playerCount)
     }
 
     render() {

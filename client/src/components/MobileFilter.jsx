@@ -44,7 +44,7 @@ class MobileFilter extends Component {
                   <div style={{width: 250, padding: "24px"}}>
                     <Typography style={{marginBottom: 12}} variant="h6">Change Year: </Typography>
                     <SelectYear year={this.props.year} changeYear={this.props.changeYear}/>
-                    <FilterPlayerCount changeListState={this.changeListState}/>
+                    <FilterPlayerCount changeListState={this.props.changeListState}/>
                     <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
                     <FilterOutChannel channels={channels} removedChannels={filterOutChannels} changeListState={this.props.changeListState}/>
                     <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} authorChannels={authorChannels} changeListState={this.props.changeListState}/>
