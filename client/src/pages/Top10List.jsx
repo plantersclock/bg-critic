@@ -340,7 +340,6 @@ class Top10List extends Component {
                       <Typography style={{marginBottom: 12}} variant="h6">Filters: </Typography>
                       <SelectYear year={this.state.year} changeYear={this.changeYear}/>
                       <FilterPlayerCount filterPlayerCount={filterPlayerCount} changeListState={this.changeListState}/>
-                      <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
                       <FilterOutChannel removedChannels={filterOutChannels} channels={channels} changeListState={this.changeListState}></FilterOutChannel>                      
                       <FilterOutAuthor removedAuthors={filterOutAuthors} authors={Object.keys(authors)} authorChannels={authors} changeListState={this.changeListState}></FilterOutAuthor>
 
