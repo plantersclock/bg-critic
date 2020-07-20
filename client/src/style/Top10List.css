@@ -1,25 +1,25 @@
 .filter-list-button {
-    position: fixed !important;
-    bottom: 24px !important;
-    right: 24px !important;
-    z-index: 499
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 499;
 }
 
 .filter-list-button {
-    position: fixed !important;
-    bottom: 24px !important;
-    right: 24px !important;
-    z-index: 999
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 999;
 }
 
 @media only screen and (min-width: 960px) {
-    .bg-skele-image{
-        height: 400px !important;
-    }
+  .bg-skele-image {
+    height: 400px !important;
+  }
 }
 
 @media only screen and (min-width: 600px) {
-    .bg-skele-image{
-        height: 300px !important;
-    }
+  .bg-skele-image {
+    height: 300px !important;
+  }
 }
