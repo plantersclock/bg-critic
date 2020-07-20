@@ -77,7 +77,7 @@ class FilterOutChannel extends Component {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={removedChannels.includes(channel)}
+                        checked={!removedChannels.includes(channel)}
                         onChange={this.handleChange}
                         name={channel}
                         color="primary"

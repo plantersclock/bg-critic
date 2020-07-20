@@ -7,6 +7,7 @@ import { Typography} from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Helmet } from 'react-helmet';
 import Hidden from '@material-ui/core/Hidden';
+import _ from 'lodash';
 
 
 
@@ -31,8 +32,9 @@ class Top10List extends Component {
             authors: [],
             filterOutChannels: [],
             filterOutAuthors: [],
+            filterPlayerCount: "",
             channelAuthors: [{}],
-            authorChannels: [],
+            authorChannels: [{}],
             year: this.props.match.params.year
         };
 
@@ -41,7 +43,6 @@ class Top10List extends Component {
         this.setupList = this.setupList.bind(this);
         this.changeListState = this.changeListState.bind(this);
         this.changeYear = this.changeYear.bind(this);
-        this.alignChannelAuthor = this.alignChannelAuthor.bind(this);
         this.getChannelAuthors = this.getChannelAuthors.bind(this);
         this.getTop10DataForYear = this.getTop10DataForYear.bind(this);
 
@@ -98,21 +99,26 @@ class Top10List extends Component {
       getAuthors(items){
         let uniqueAuthors = items.map( (item) => item.author).filter( (item, index, _arr) => _arr.indexOf(item) === index);
         let authorChannels = []
+        let authorChannelsDict = {}
         let authorItems
         for (let i = 0; i < uniqueAuthors.length; i++) 
           {
+
             authorItems = items.filter(({author}) => author===uniqueAuthors[i])
             
+            let newDict =  {
+              author: uniqueAuthors[i],
+              channel: authorItems[0]["channel"]
+            }
 
-            authorChannels.push(
-              {
-                "author": uniqueAuthors[i],
-                "channel": authorItems[0]["channel"]
-              }
-            )
+            let authorChannel = {[uniqueAuthors[i]]: authorItems[0]["channel"]}
+            
+            authorChannelsDict=Object.assign({}, authorChannelsDict, authorChannel)
+            authorChannels.push( newDict)
           }
-        return {authors: uniqueAuthors,
-                authorChannels: authorChannels}
+
+        return {authors: authorChannels,
+                authorChannels: authorChannelsDict}
       }
 
       getChannelAuthors (){
@@ -132,7 +138,7 @@ class Top10List extends Component {
               }
             }
             let newDict = {[channel]: authors}
-            channelAuthors = Object.assign({}, channelAuthors, newDict)
+            channelAuthors = _.merge(channelAuthors, newDict)
             return null
 
           })
@@ -144,50 +150,31 @@ class Top10List extends Component {
 
       }
 
-      alignChannelAuthor(channelAuthors){
-        let {filterOutChannels, filterOutAuthors} = this.state
 
-        if (filterOutChannels.length > 0){
-
-          filterOutChannels.map(channel => {
-
-            let authors = channelAuthors[channel]
-            let array = []
-
-            authors.map(author =>{
-              if (!filterOutAuthors.includes(author)){
-                array.push(author)
-              }
-              return null
-            })
-            return array
-
-          })
-
-        }
-
-
-      }
 
       filterItems(items, name, value){
-
-        let { filterPlayerCount, filterOutChannels, filterOutAuthors } = this.state
+        console.log(name)
+        let { filterPlayerCount, filterOutChannels, filterOutAuthors, authorChannels } = this.state
         if (name === "filterPlayerCount"){
           filterPlayerCount = value
         }
         else if (name === "filterOutChannels"){
-          if (this.state.filterOutChannels.includes(value)){
+          if (filterOutChannels.includes(value)){
             filterOutChannels = (filterOutChannels.filter(channel => channel !== value))
             filterOutAuthors = filterOutAuthors.filter((author) => !this.getChannelAuthors()[value].includes(author))
 
           } else {
             filterOutChannels = [...filterOutChannels, value]
-
+            filterOutAuthors = [...filterOutAuthors, ...this.getChannelAuthors()[value]]
          }
         }
         else if (name === "filterOutAuthors"){
-          if (this.state.filterOutAuthors.includes(value)){
+          console.log(value)
+          
+          if (filterOutAuthors.includes(value)){
+
             filterOutAuthors = (filterOutAuthors.filter(author => author !== value))
+            filterOutChannels = (filterOutChannels.filter(channel => channel !== authorChannels[value]))
 
           } else {
             filterOutAuthors = [...filterOutAuthors, value]
@@ -202,8 +189,13 @@ class Top10List extends Component {
           filteredItems = filteredItems.filter(({minPlayers})=> (minPlayers <= filterPlayerCount))
           filteredItems = filteredItems.filter(({maxPlayers})=> (maxPlayers >= filterPlayerCount))
         }
+        console.log (filterOutAuthors)
+        console.log (filterOutChannels)
 
-        return filteredItems
+        return {items: filteredItems,
+                filterOutAuthors: filterOutAuthors,
+                filterOutChannels: filterOutChannels,
+                filterPlayerCount: filterPlayerCount}
       }
 
       getTopX(items, topX) {
@@ -275,38 +267,22 @@ class Top10List extends Component {
       }
 
       changeListState = async (name, value) => {
-        let sortedTopXItems = this.getTopX(this.filterItems(this.state.top10Items, name, value), 10)
-        if (name === 'filterOutChannels'){
-          if (this.state.filterOutChannels.includes(value)){
-            let filterOutChannels = (this.state.filterOutChannels.filter(channel => channel !== value))
-            let filterOutAuthors = this.state.filterOutAuthors.filter((author) => !this.getChannelAuthors()[value].includes(author))
-            this.setState({
-              topX: sortedTopXItems.topX,
-              structuredTop10: sortedTopXItems.sortedTop10Items,
-              [name]: filterOutChannels,
-              filterOutAuthors: filterOutAuthors
-              })
-          } else {
-            let authors = this.getChannelAuthors()[value]
-            this.setState(prevState => ({
-              topX: sortedTopXItems.topX,
-              structuredTop10: sortedTopXItems.sortedTop10Items,
-              [name]: [...prevState.filterOutChannels, value],
-              filterOutAuthors: [...prevState.filterOutAuthors, ...authors]
-              }))}
-        } else {
+        let filteredItems = this.filterItems(this.state.top10Items, name, value)
+        let sortedTopXItems = this.getTopX(filteredItems.items, 10)
+
         this.setState({
                       topX: sortedTopXItems.topX,
                       structuredTop10: sortedTopXItems.sortedTop10Items,
-                      [name]: value,
-                      })
-                    }
+                      filterOutAuthors: filteredItems.filterOutAuthors,
+                      filterOutChannels: filteredItems.filterOutChannels,
+                      filterPlayerCount: filteredItems.filterPlayerCount})
+                    
       }
 
 
 
     render() {
-        let { topX, channels, authors, authorChannels, filterOutAuthors, filterOutChannels, structuredTop10 } = this.state
+        let { topX, channels, authors, filterOutAuthors, filterOutChannels, structuredTop10, filterPlayerCount } = this.state
         let order = -1
         let beforeScore = 0
 
@@ -363,10 +339,10 @@ class Top10List extends Component {
                     <div style={{width:"100%", height:"auto", marginTop:38}}>
                       <Typography style={{marginBottom: 12}} variant="h6">Filters: </Typography>
                       <SelectYear year={this.state.year} changeYear={this.changeYear}/>
-                      <FilterPlayerCount changeListState={this.changeListState}/>
+                      <FilterPlayerCount filterPlayerCount={filterPlayerCount} changeListState={this.changeListState}/>
                       <Typography style={{marginBottom: 12}} variant="h6">Filter Out: </Typography>
                       <FilterOutChannel removedChannels={filterOutChannels} channels={channels} changeListState={this.changeListState}></FilterOutChannel>                      
-                      <FilterOutAuthor removedAuthors={filterOutAuthors} authors={authors} authorChannels={authorChannels} changeListState={this.changeListState}></FilterOutAuthor>
+                      <FilterOutAuthor removedAuthors={filterOutAuthors} authors={Object.keys(authors)} authorChannels={authors} changeListState={this.changeListState}></FilterOutAuthor>
 
                       {/* <FilterTopX changeListState={this.changeListState}></FilterTopX> */}
 
@@ -379,7 +355,7 @@ class Top10List extends Component {
                 <Grid item sm = {1} md={1} lg={2} xl={3} ></Grid>
               </Grid>
               <Hidden mdUp>
-                <MobileFilter year={this.state.year} authorChannels={authorChannels} channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} authors={authors} changeYear={this.changeYear} changeListState={this.changeListState}/>
+                <MobileFilter year={this.state.year} authorChannels={authors} channels={channels} filterOutChannels={filterOutChannels} filterOutAuthors={filterOutAuthors} filterPlayerCount={filterPlayerCount} authors={Object.keys(authors)} changeYear={this.changeYear} changeListState={this.changeListState}/>
               </Hidden>
             </div>
         )

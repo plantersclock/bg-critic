@@ -11,7 +11,7 @@ class FilterPlayerCount extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          playerCount: ""
+          playerCount: this.props.filterPlayerCount
         };
 
         this.handleChange=this.handleChange.bind(this)
@@ -33,7 +33,8 @@ class FilterPlayerCount extends Component {
     }
 
     render() {
-      let {minPlayer} = this.state
+      let {playerCount} = this.state
+      console.log (this.props.filterPlayerCount)
         return (
           <form noValidate autoComplete="off">
             <div style={{width: "100%"}}>
@@ -41,7 +42,7 @@ class FilterPlayerCount extends Component {
                 <TextField
                   id="standard-select-year"
                   label="Player Count"
-                  value={minPlayer}
+                  value={playerCount}
                   onChange={this.handleChange}
                   style={{width: 100}}
                 >

@@ -34,6 +34,7 @@ class FilterOutAuthors extends Component {
     handleChange = async (e) => {
       let name = e.target.name
       let arrayRemovedAuthors = [...this.state.removedAuthors]
+      this.props.changeListState("filterOutAuthors", name)
 
       if (e.target.checked===true) {
         await this.setState(prevState => ({
@@ -46,7 +47,7 @@ class FilterOutAuthors extends Component {
         await this.setState({removedAuthors: arrayRemovedAuthors})
       }
 
-      this.props.changeListState("filterOutAuthors", this.state.removedAuthors)
+
     }
 
 
@@ -74,7 +75,7 @@ class FilterOutAuthors extends Component {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={removedAuthors.includes(authorChannel.author)}
+                            checked={!removedAuthors.includes(authorChannel.author)}
                             onChange={this.handleChange}
                             name={authorChannel.author}
                             color="primary"
