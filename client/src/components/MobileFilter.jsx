@@ -51,8 +51,11 @@ class MobileFilter extends Component {
           onClose={() => this.toggleDrawer(false)}
         >
           <div style={{ width: 250, padding: "24px" }}>
-            <Typography style={{ marginBottom: 12 }} variant="h6">
-              Change Year:{" "}
+            <Typography
+              style={{ marginBottom: 12, marginLeft: 10 }}
+              variant="h6"
+            >
+              Filters:
             </Typography>
             <SelectYear
               year={this.props.year}

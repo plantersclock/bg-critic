@@ -291,7 +291,10 @@ class Top10List extends Component {
       structuredTop10: sortedTopXItems.sortedTop10Items,
       filterOutAuthors: filteredItems.filterOutAuthors,
       filterOutChannels: filteredItems.filterOutChannels,
-      filterPlayerCount: filteredItems.filterPlayerCount,
+      filterPlayerCount:
+        Number(filteredItems.filterPlayerCount) === 0
+          ? 0
+          : Number(filteredItems.filterPlayerCount),
     });
   };
 
@@ -386,7 +389,10 @@ class Top10List extends Component {
             <Hidden smDown>
               <Grid item md={4}>
                 <div style={{ width: "100%", height: "auto", marginTop: 38 }}>
-                  <Typography style={{ marginBottom: 12 }} variant="h6">
+                  <Typography
+                    style={{ marginBottom: 12, marginLeft: 10 }}
+                    variant="h6"
+                  >
                     Filters:{" "}
                   </Typography>
                   <SelectYear

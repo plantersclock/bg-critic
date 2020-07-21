@@ -18,7 +18,7 @@ class Top10SubText extends Component {
         <Grid item xs={12}>
           <Divider style={{ width: "100%" }} />
         </Grid>
-        <Typography style={{ padding: "12px 0px" }} variant="body1">
+        <Typography style={{ padding: "18px 0px" }} variant="body1">
           The following list has been generated from {this.props.xReviewers}{" "}
           reviewers' lists of the best boardgames of {this.props.year}. Games
           are scored and ranked based on their appearance on Top 10 lists by
