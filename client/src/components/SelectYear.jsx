@@ -23,7 +23,8 @@ class SelectYear extends Component {
 
   getYears = async () => {
     let stuff = await api.getYears();
-    let years = stuff.data.data.map((year) => year.toString());
+    stuff = stuff.data.data.sort((a, b) => b - a);
+    let years = stuff.map((year) => year.toString());
     this.setState({ selectableYears: years });
   };
 
