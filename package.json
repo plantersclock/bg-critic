@@ -12,7 +12,7 @@
     "heroku-ssl-redirect": "^0.0.4",
     "lodash": "^4.17.19",
     "mongoose": "^5.9.21",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.4"
   },
   "scripts": {
